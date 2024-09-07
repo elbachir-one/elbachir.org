@@ -15,10 +15,10 @@ This guide outlines the steps to set up T2 System Development Environment (T2SDE
 ### 2. Create and Configure a Virtual Machine
 - Use your preferred VM software to create a new virtual machine.
 - Set **bridged networking** so the VM gets an IP address on your network.
-- Boot the VM using the downloaded T2SDE ISO (no need to install T2SDE, just run it in live mode).
+- Boot the VM and install T2SDE just the basic, here is a Video [T2sde install](https://www.youtube.com/watch?v=pve_pLXzk-0).
 
 ### 3. Create a TAR Archive of T2SDE
-- Open a terminal in the VM and change to the root directory:
+- Change to the root directory:
 
   ```sh
   cd /
