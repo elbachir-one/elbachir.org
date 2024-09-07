@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Markdown Viewer</title>
+    <script src="https://cdn.jsdelivr.net/npm/showdown@2.0.3/dist/showdown.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #000;
+            color: white;
+            padding: 20px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        h1 {
+            text-align: center;
+            color: white;
+        }
+        pre {
+            background-color: #333;
+            padding: 10px;
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+        a {
+            color: #1e90ff;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Markdown File Viewer</h1>
+
+<div id="content"></div>
+
+<script>
+    // Get the file name from the query parameter
+    const urlParams = new URLSearchParams(window.location.search);
+    const fileName = urlParams.get('file');
+
+    // Function to fetch and display the markdown
+    function loadMarkdown(file) {
+        fetch(file)
+            .then(response => response.text())
+            .then(markdown => {
+                const converter = new showdown.Converter();
+                const html = converter.makeHtml(markdown);
+                document.getElementById('content').innerHTML = html;
+            })
+            .catch(error => {
+                document.getElementById('content').innerHTML = `<p>Error loading file: ${file}</p>`;
+            });
+    }
+
+    if (fileName) {
+        loadMarkdown(fileName);
+    } else {
+        document.getElementById('content').innerHTML = '<p>No file specified.</p>';
+    }
+</script>
+
+</body>
+</html>
