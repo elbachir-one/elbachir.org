@@ -1,6 +1,6 @@
 # 🌟 **README**
 
-### A Collection of README Files:
+### A Collection of README Files
 
 📜 **[Arch Linux Install Script](md_files/arch_install_script.md)**
 A step-by-step guide to installing Arch Linux.
