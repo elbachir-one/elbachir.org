@@ -36,11 +36,9 @@
 <div id="content"></div>
 
 <script>
-    // Get the file name from the query parameter
     const urlParams = new URLSearchParams(window.location.search);
     const fileName = urlParams.get('file');
 
-    // Function to fetch and display the markdown
     function loadMarkdown(file) {
         fetch(file)
             .then(response => response.text())
