@@ -77,3 +77,5 @@ This guide outlines the steps to set up T2 System Development Environment (T2SDE
 
 ### Conclusion
 You've successfully launched T2SDE on WSL by following these procedures. Take pleasure in using and investigating T2SDE in the comfort of your Windows environment
+
+***Et voilà!***
