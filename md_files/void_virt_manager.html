@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Setup Virt Manager for Void Linux</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f9f9f9;
+      color: #333;
+      padding: 20px;
+    }
+    h1 {
+      font-size: 2em;
+      color: #2c3e50;
+    }
+    h2, h3 {
+      color: #3498db;
+      margin-top: 20px;
+    }
+    p {
+      line-height: 1.6;
+      margin-bottom: 20px;
+    }
+    pre, code {
+      background-color: #2c3e50;
+      color: #ecf0f1;
+      padding: 10px;
+      border-radius: 5px;
+      overflow-x: auto;
+    }
+    pre {
+      margin: 20px 0;
+    }
+    ul {
+      margin: 10px 0;
+      padding-left: 20px;
+    }
+    li {
+      margin: 5px 0;
+    }
+    .note {
+      background-color: #f1c40f;
+      padding: 10px;
+      border-left: 5px solid #e67e22;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+
+<h1>⚙️ Setup Virt Manager for Void Linux</h1>
+
+<h2>🔧 Installation</h2>
+<pre><code>sudo xbps-install -S virt-manager libvirt qemu openbsd-netcat dnsmasq vde2 bridge-utils</code></pre>
+
+<h2>🔧 Setup</h2>
+<pre><code>sudo usermod -aG kvm &lt;username&gt;
+modprobe kvm-&lt;your CPU&gt;    # For AMD use `kvm-amd` and for Intel `kvm-intel`
+sudo usermod -a -G libvirt &lt;username&gt;</code></pre>
+
+<h2>🔧 Configuration</h2>
+
+<h3>1. Edit libvirt configuration</h3>
+<pre><code>sudo vim /etc/libvirt/libvirtd.conf</code></pre>
+
+<ul>
+  <li>Uncomment the following lines:</li>
+  <ul>
+    <li><code>listen_tls = 0</code></li>
+    <li><code>unix_sock_group = "libvirt"</code></li>
+    <li><code>unix_sock_ro_perms = "0777"</code></li>
+    <li><code>unix_sock_rw_perms = "0770"</code></li>
+    <li><code>unix_sock_dir = "/run/libvirt"</code></li>
+    <li><code>auto_unix_ro = "polkit" → auto_unix_ro = "none"</code></li>
+    <li><code>auto_unix_rw = "polkit" → auto_unix_rw = "none"</code></li>
+  </ul>
+</ul>
+
+<h3>2. Edit default URI for libvirt</h3>
+<pre><code>sudo vim /etc/libvirt/libvirt.conf</code></pre>
+<ul>
+  <li>Uncomment the following line:</li>
+  <ul>
+    <li><code>uri_default = "qemu:///system"</code></li>
+  </ul>
+</ul>
+
+<h3>3. Configure QEMU user permissions</h3>
+<pre><code>sudo vim /etc/libvirt/qemu.conf</code></pre>
+<ul>
+  <li>Uncomment and edit lines 519 and 523:</li>
+  <ul>
+    <li><code>user = "your username"</code></li>
+    <li><code>group = "libvirt"</code></li>
+  </ul>
+</ul>
+
+<h2>🚀 Enable Services</h2>
+<pre><code>sudo ln -s /etc/sv/libvirtd /var/service/
+sudo ln -s /etc/sv/virtlogd /var/service/
+sudo reboot</code></pre>
+
+<div class="note">
+  <strong>Note:</strong> If you have <code>dhcpcd</code> for networking and want to use SSH, you need to switch to <code>NetworkManager</code>.
+</div>
+
+<h3>Switch to NetworkManager</h3>
+<pre><code>sudo xbps-install -S NetworkManager
+sudo sv down dhcpcd
+sudo rm /var/service/dhcpcd
+sudo ln -s /etc/sv/NetworkManager /var/service/
+sudo ln -s /etc/sv/dbus /var/service/
+sudo reboot</code></pre>
+
+<h2>🎉 Finish</h2>
+<p><strong>Et voilà</strong> – you've successfully set up Virt Manager on Void Linux!</p>
+
+</body>
+</html>

@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Void Linux Package Installation from Source</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f9;
+      color: #333;
+      line-height: 1.6;
+      padding: 20px;
+    }
+    h1, h2, h3, h4 {
+      color: #2c3e50;
+    }
+    h1 {
+      font-size: 2.5em;
+      margin-bottom: 20px;
+    }
+    h2 {
+      font-size: 1.8em;
+      margin-top: 20px;
+    }
+    p, li {
+      margin: 10px 0;
+    }
+    pre {
+      background-color: #333;
+      color: #fff;
+      padding: 10px;
+      border-radius: 5px;
+      overflow-x: auto;
+    }
+    code {
+      background-color: #f4f4f9;
+      padding: 5px;
+      border-radius: 3px;
+      color: #d63384;
+    }
+    a {
+      color: #3498db;
+      text-decoration: none;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+    .note {
+      background-color: #ffeeba;
+      padding: 10px;
+      border-left: 5px solid #ffc107;
+      margin: 20px 0;
+    }
+    .highlight {
+      background-color: #d4edda;
+      padding: 10px;
+      border-left: 5px solid #28a745;
+      margin: 20px 0;
+    }
+    .code-section {
+      margin: 20px 0;
+    }
+    ul {
+      padding-left: 20px;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>⚙️ Void Linux Package Installation from Source</h1>
+
+  <h2>🔧 Installing, Configuring, and Patching Suckless Tools via xbps-src</h2>
+
+  <h3>Configuring</h3>
+  <ol>
+    <li>Install Xorg, Git, and additional dependencies such as <code>libXft-devel</code>, <code>libX11-devel</code>, <code>libXinerama-devel</code>, and <code>base-devel</code>:</li>
+  </ol>
+  <div class="code-section">
+    <pre><code>sudo xbps-install -S xorg git base-devel libXft-devel libX11-devel libXinerama-devel</code></pre>
+  </div>
+
+  <ol start="2">
+    <li>Clone the Void Linux packages repository:</li>
+  </ol>
+  <div class="code-section">
+    <pre><code>git clone --depth=1 https://github.com/void-linux/void-packages.git
+cd void-packages/
+./xbps-src binary-bootstrap</code></pre>
+  </div>
+
+  <ol start="3">
+    <li>Extract the <code>dwm</code> source code:</li>
+  </ol>
+  <div class="code-section">
+    <pre><code>./xbps-src extract dwm
+ls masterdir/builddir/dwm{version}/</code></pre>
+  </div>
+
+  <ol start="4">
+    <li>Create a <code>files</code> directory inside the <code>dwm</code> source package for your configuration:</li>
+  </ol>
+  <div class="code-section">
+    <pre><code>mkdir -p srcpkgs/dwm/files
+cp masterdir/builddir/dwm{version}/config.def.h srcpkgs/dwm/files/config.h</code></pre>
+  </div>
+
+  <ol start="5">
+    <li>After modifying <code>config.h</code> for <code>dwm</code>, build and install the package:</li>
+  </ol>
+  <div class="code-section">
+    <pre><code>./xbps-src pkg dwm
+sudo xbps-install -R hostdir/binpkgs dwm</code></pre>
+  </div>
+
+  <h3>Patching</h3>
+
+  <ol>
+    <li>Create a <code>patches</code> directory in the source package (for example, in <code>st</code>):</li>
+  </ol>
+  <div class="code-section">
+    <pre><code>mkdir -p srcpkgs/st/patches</code></pre>
+  </div>
+
+  <ol start="2">
+    <li>Download the patch and place it in the <code>patches</code> directory:</li>
+  </ol>
+
+  <ol start="3">
+    <li>Apply the patch, build, and install <code>st</code>:</li>
+  </ol>
+  <div class="code-section">
+    <pre><code>./xbps-src extract st
+cp masterdir/builddir/st{version}/config.def.h srcpkgs/st/files/config.h
+./xbps-src -f pkg st
+sudo xbps-install -R hostdir/binpkgs -f st</code></pre>
+  </div>
+
+  <div class="highlight">
+    <strong>Note</strong>: The same steps apply for other Suckless tools.
+  </div>
+
+  <h2>🎉 Finish</h2>
+  <p><strong>Et voilà</strong> – you've successfully installed and configured the Suckless tools on Void Linux from source!</p>
+
+</body>
+</html>
