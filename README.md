@@ -2,7 +2,7 @@
 
 <div style="display: flex; flex-wrap: wrap; gap: 20px;">
 
-  <a href="md_files/arch_install_script.md" style="text-decoration: none; color: inherit;">
+  <a href="md_files/arch_install_script.html" style="text-decoration: none; color: inherit;">
     <div style="border: 1px solid #ddd; border-radius: 10px; padding: 20px; width: 250px; box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1); transition: transform 0.3s; cursor: pointer;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
       <h3>📜 Arch Linux Install Script</h3>
       <p>A step-by-step guide to installing Arch Linux.</p>
