@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>dwm Configuration - README</title>
+
+		<link rel="stylesheet" href="my_dwm_config.css">
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nerd-fonts/css/nerd-fonts.css">
+	</head>
+	<body>
+		<div class="section">
+			<h1>dwm Configuration - README</h1>
+			<p>This README outlines the keybindings, scratchpad usage, layouts, and other important settings in the <code>config.def.h</code> file for my <code>dwm</code> build.</p>
+		</div>
+
+		<div class="section">
+			<h2 class="section-title">Appearance</h2>
+			<table>
+				<tr>
+					<th>Property</th>
+					<th>Value</th>
+				</tr>
+				<tr>
+					<td><strong>Border Width</strong></td>
+					<td>0px (no window border)</td>
+				</tr>
+				<tr>
+					<td><strong>Gaps</strong></td>
+					<td>2px gap between windows</td>
+				</tr>
+				<tr>
+					<td><strong>Snap</strong></td>
+					<td>8px</td>
+				</tr>
+				<tr>
+					<td><strong>Status Bar</strong></td>
+					<td>Displayed at the top of the screen</td>
+				</tr>
+				<tr>
+					<td><strong>Fonts</strong></td>
+					<td>TerminessTTF Nerd Font (18px, bold), JoyPixels (16px, bold)</td>
+				</tr>
+				<tr>
+					<td><strong>Colors</strong></td>
+					<td>See below</td>
+				</tr>
+			</table>
+		</div>
+
+		<div class="section">
+			<h3 class="section-title">Color Scheme</h3>
+			<table>
+				<tr>
+					<th>Element</th>
+					<th>Foreground</th>
+					<th>Background</th>
+					<th>Border</th>
+				</tr>
+				<tr>
+					<td><strong>SchemeNorm</strong></td>
+					<td>#dddfff</td>
+					<td>#000000</td>
+					<td>#444444</td>
+				</tr>
+				<tr>
+					<td><strong>SchemeSel</strong></td>
+					<td>#ffffff</td>
+					<td>#000000</td>
+					<td>#00ffff</td>
+				</tr>
+			</table>
+		</div>
+
+		<div class="section">
+			<h2 class="section-title">Keybindings</h2>
+			<table>
+				<tr>
+					<th>Action</th>
+					<th>Keybinding</th>
+				</tr>
+				<tr>
+					<td><strong>Terminal</strong></td>
+					<td>Alt + Enter</td>
+				</tr>
+				<tr>
+					<td><strong>Quit dwm</strong></td>
+					<td>Alt + Shift + q</td>
+				</tr>
+				<tr>
+					<td><strong>Switch Windows</strong></td>
+					<td>Alt + Tab</td>
+				</tr>
+				<tr>
+					<td><strong>Toggle Floating</strong></td>
+					<td>Alt + Space</td>
+				</tr>
+				<tr>
+					<td><strong>Tile Layout</strong></td>
+					<td>Alt + t</td>
+				</tr>
+				<tr>
+					<td><strong>Floating Layout</strong></td>
+					<td>Alt + f</td>
+				</tr>
+				<tr>
+					<td><strong>Monocle Layout</strong></td>
+					<td>Alt + m</td>
+				</tr>
+				<tr>
+					<td><strong>Move Focus</strong></td>
+					<td>Alt + j/k</td>
+				</tr>
+				<tr>
+					<td><strong>Resize Windows</strong></td>
+					<td>Alt + h/l</td>
+				</tr>
+				<tr>
+					<td><strong>Increase/Decrease Gaps</strong></td>
+					<td>Alt + Shift + h/l</td>
+				</tr>
+				<tr>
+					<td><strong>Switch Master/Slave Windows</strong></td>
+					<td>Alt + ,/.</td>
+				</tr>
+				<tr>
+					<td><strong>View Tag</strong></td>
+					<td>Alt + [1-9]</td>
+				</tr>
+				<tr>
+					<td><strong>Move Window to Tag</strong></td>
+					<td>Alt + Shift + [1-9]</td>
+				</tr>
+				<tr>
+					<td><strong>View All Tags</strong></td>
+					<td>Alt + 0</td>
+				</tr>
+				<tr>
+					<td><strong>Move Window to All Tags</strong></td>
+					<td>Alt + Shift + 0</td>
+				</tr>
+			</table>
+		</div>
+
+		<div class="section">
+			<h2 class="section-title">Scratchpads</h2>
+			<table>
+				<tr>
+					<th>Program</th>
+					<th>Keybinding</th>
+				</tr>
+				<tr>
+					<td><strong>Terminal</strong></td>
+					<td>Alt + Shift + Return</td>
+				</tr>
+				<tr>
+					<td><strong>Ranger</strong></td>
+					<td>Alt + Shift + r</td>
+				</tr>
+				<tr>
+					<td><strong>ncmpcpp</strong></td>
+					<td>Alt + Shift + m</td>
+				</tr>
+				<tr>
+					<td><strong>tty-clock</strong></td>
+					<td>Alt + Shift + c</td>
+				</tr>
+				<tr>
+					<td><strong>Vim</strong></td>
+					<td>Alt + Shift + v</td>
+				</tr>
+				<tr>
+					<td><strong>nnn</strong></td>
+					<td>Alt + Shift + n</td>
+				</tr>
+				<tr>
+					<td><strong>Typiskt</strong></td>
+					<td>Alt + Shift + t</td>
+				</tr>
+				<tr>
+					<td><strong>Cava</strong></td>
+					<td>Alt + Shift + a</td>
+				</tr>
+			</table>
+		</div>
+
+		<div class="section">
+			<h2 class="section-title">Layouts</h2>
+			<table>
+				<tr>
+					<th>Layout</th>
+					<th>Keybinding</th>
+				</tr>
+				<tr>
+					<td><strong>Tile</strong></td>
+					<td>Alt + t</td>
+				</tr>
+				<tr>
+					<td><strong>Floating</strong></td>
+					<td>Alt + f</td>
+				</tr>
+				<tr>
+					<td><strong>Monocle</strong></td>
+					<td>Alt + m</td>
+				</tr>
+			</table>
+		</div>
+
+		<div class="section">
+			<h2 class="section-title">Autostart Programs</h2>
+			<ul>
+				<li>st (simple terminal)</li>
+				<li>picom (compositor for transparency)</li>
+				<li>slstatus (status bar)</li>
+				<li>mpd (music player daemon)</li>
+				<li>dunst (notification daemon)</li>
+				<li>nm-applet (network manager tray icon)</li>
+				<li>redshift (for adjusting screen color temperature)</li>
+				<li>feh (for setting background image)</li>
+				<li>blueman (for Bluetooth management)</li>
+				<li>pasystray (for PulseAudio volume control)</li>
+				<li>gpg-agent (for managing GPG keys)</li>
+				<li>xbindkeys (for custom keybindings)</li>
+				<li>xsettingsd (for GTK+ and QT settings)</li>
+				<li>barrier (for mouse and keyboard sharing)</li>
+				<li>Background image via <code>.fehbg</code></li>
+				<li>Cursor hiding via <code>xhidecursor</code></li>
+			</ul>
+		</div>
+
+		<div class="section">
+			<h2 class="section-title">Tags</h2>
+			<table>
+				<tr>
+					<th>Tag</th>
+					<th>Icon</th>
+				</tr>
+				<tr>
+					<td><strong>Terminal</strong></td>
+					<td class="icon"></td>
+				</tr>
+				<tr>
+					<td><strong>Web Browser</strong></td>
+					<td class="icon"></td>
+				</tr>
+				<tr>
+					<td><strong>Development</strong></td>
+					<td class="icon"></td>
+				</tr>
+				<tr>
+					<td><strong>Chat</strong></td>
+					<td class="icon"></td>
+				</tr>
+				<tr>
+					<td><strong>Files</strong></td>
+					<td class="icon">󰑈</td>
+				</tr>
+				<tr>
+					<td><strong>Music</strong></td>
+					<td class="icon">󰛍</td>
+				</tr>
+				<tr>
+					<td><strong>Documents</strong></td>
+					<td class="icon"></td>
+				</tr>
+				<tr>
+					<td><strong>Media Editing</strong></td>
+					<td class="icon">󰣠</td>
+				</tr>
+				<tr>
+					<td><strong>Video</strong></td>
+					<td class="icon"></td>
+				</tr>
+				<tr>
+					<td><strong>Recording</strong></td>
+					<td class="icon"></td>
+				</tr>
+			</table>
+		</div>
+
+		<div class="section">
+			<h3 class="section-title">Tag Rules</h3>
+			<table>
+				<tr>
+					<th>Application</th>
+					<th>Tag</th>
+					<th>Description</th>
+				</tr>
+				<tr>
+					<td><code>discord</code></td>
+					<td>5</td>
+					<td>Chat</td>
+				</tr>
+				<tr>
+					<td><code>qemu</code></td>
+					<td>9</td>
+					<td>Virtualization</td>
+				</tr>
+				<tr>
+					<td><code>surf</code> / <code>qutebrowser</code></td>
+					<td>3</td>
+					<td>Browser</td>
+				</tr>
+				<tr>
+					<td><code>firefox</code> / <code>chromium</code></td>
+					<td>9</td>
+					<td>Browser</td>
+				</tr>
+				<tr>
+					<td><code>obs</code></td>
+					<td>7</td>
+					<td>Recording</td>
+				</tr>
+				<tr>
+					<td><code>virt-manager</code></td>
+					<td>8</td>
+					<td>Virtual Machines</td>
+				</tr>
+				<tr>
+					<td><code>transmission-gtk</code></td>
+					<td>9</td>
+					<td>Downloads</td>
+				</tr>
+				<tr>
+					<td><code>krita</code>, <code>gimp</code>, <code>kdenlive</code></td>
+					<td>7</td>
+					<td>Media Editing</td>
+				</tr>
+			</table>
+		</div>
+
+		<div class="section">
+			<h2 class="section-title">Special Rules</h2>
+			<p>Floating scratchpad windows (e.g., <code>spterm</code>, <code>spfm</code>, <code>spncm</code>, etc.) are not swallowed and behave as independent floating windows.</p>
+		</div>
+		<p><em>***Et voilà!***</em></p>
+	</body>
+</html>
