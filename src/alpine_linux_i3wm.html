@@ -50,7 +50,7 @@
 <code>doas apk upgrade</code></pre>
 				<p>Install Xorg and i3:</p>
 				<pre><code>doas setup-xorg-base</code>
-<code>doas apk add i3wm i3status sakura xrandr setxkbmap feh dbus alsa-utils font-dejavu adwaita-icon-theme firefox pcmanfm flameshot</code></pre>
+<code>doas apk add i3wm i3status dmenu sakura xrandr setxkbmap feh dbus font-dejavu adwaita-icon-theme chromium thunar flameshot</code></pre>
 				<p><strong>Note:</strong> Add your user to the input group:</p>
 				<pre><code>doas adduser yourUserName input</code></pre>
 			</article>
@@ -79,7 +79,7 @@
 			<article>
 				<h2>Step 7: Install Developer Tools</h2>
 				<p>Install developer tools for your setup:</p>
-				<pre><code>doas apk add git vim make libx11-dev libxinerama-dev libxft-dev g++ fontconfig-dev ncurses curl cmake</code></pre>
+				<pre><code>doas apk add git make libx11-dev libxinerama-dev libxft-dev g++ fontconfig-dev ncurses curl</code></pre>
 			</article>
 
 			<article>
@@ -91,7 +91,7 @@
 </pre>
 				<p>Autostart Picom, Sakura, and other applications by adding them to your i3 config:</p>
 <pre>
-<code>exec --no-startup-id picom --experimental-backends</code>
+<code>exec --no-startup-id picom</code>
 <code>exec --no-startup-id feh --bg-fill /path/to/wallpaper.jpg</code>
 <code>exec --no-startup-id flameshot</code>
 <code>exec --no-startup-id sakura</code>
@@ -103,8 +103,19 @@
 				<p>Install <code>lxappearance</code> to configure your GTK themes, icons, and cursor:</p>
 				<pre><code>doas apk add lxappearance</code></pre>
 				<p><strong>Note:</strong> You can install any GTK themes or icon packs you prefer, such as:</p>
-				<pre><code>doas apk add numix-themes-gtk3 papirus-icon-theme</code></pre>
+				<pre><code>doas apk add mate-themes papirus-icon-theme capitaine-cursors</code></pre>
 			</article>
+
+			<article>
+				<h2>Step 10: Enable Audio with ALSA</h2>
+				<p>Install <code>alsa-utils</code> to enable audio:</p>
+				<pre><code>doas apk add alsa-utils</code></pre>
+				<p>Now, run <code>alsamixer</code> and press <code>m</code> on your keyboard to unmute the sound. Use the up arrow to increase the volume level.</p>
+				<p><strong>Note:</strong> If you have multiple audio devices, press <code>F6</code> to select the device you want to use, or stick with the default one.</p>
+				<p><strong>Note:</strong> To save your settings, run the following command in the terminal:</p>
+				<pre><code>doas alsactl store</code></pre>
+			</article>
+
 		</main>
 
 		<footer>

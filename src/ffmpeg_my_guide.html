@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>FFmpeg Commands Guide</title>
+		<link rel="stylesheet" href="ffmpeg_my_guide.css">
+	</head>
+	<body>
+
+		<h1>FFmpeg Commands Guide</h1>
+		<h2>How to Add Multiple Videos into One Video</h2>
+		<pre><code>ffmpeg -f concat -i list.txt -c copy out.mp4</code></pre>
+		<p><strong>list.txt:</strong></p>
+		<pre><code>file 'video1.mp4'</code>
+<code>file 'video2.mp4'</code></pre>
+
+		<h2>How to Record Screen</h2>
+		<pre><code>ffmpeg -framerate 20 -f x11grab -s 1366x768 -i :0.0+0,0 -f alsa -i hw:0 out.mkv</code></pre>
+
+		<h2>How to Record Screen Without Audio</h2>
+		<pre><code>ffmpeg -framerate 20 -f x11grab -s 1366x768 -i :0.0+0,0 out.mkv</code></pre>
+
+		<h2>How to Convert MP4 to MP3</h2>
+		<pre><code>ffmpeg -i video.mp4 -f mp3 -vn audio.wav</code></pre>
+
+		<h2>How to Remove Audio from a Video</h2>
+		<pre><code>ffmpeg -i video.mp4 -c:v copy -an out.mp4</code></pre>
+
+		<h2>How to Extract Audio from a Video</h2>
+		<pre><code>ffmpeg -i video.mp4 -vn audio.wav</code></pre>
+
+		<h2>How to Merge Video and Audio</h2>
+		<pre><code>ffmpeg -i video.mp4 -i audio.wav -c:v copy -c:a aac output.mp4</code></pre>
+
+		<h2>How to Cut Video or Audio</h2>
+		<pre><code>ffmpeg -i input.mkv -ss 00:03:00 -to 00:03:44 -async 1 cut.mkv</code>
+<code>ffmpeg -i input.mp4 -ss 01:43:46 -to 00:44:30 output.mp3</code></pre>
+		<p><strong>Use <code>-t</code> to cut specific duration, e.g., 03:44 minutes.</strong></p>
+
+		<h2>How to Download Multiple Videos Simultaneously using youtube-dl</h2>
+		<p>To simulate and see the resolution:</p>
+		<pre><code>youtube-dl -ct --simulate --batch-file='/path/to/batch-file.txt'</code></pre>
+		<p>To download:</p>
+		<pre><code>youtube-dl -ct --batch-file='/path/to/batch-file.txt'</code></pre>
+
+		<h2>How to Double the Speed of the Video with <code>setpts</code> Filter</h2>
+		<pre><code>ffmpeg -i input.mkv -filter:v "setpts=0.5*PTS" output.mkv</code></pre>
+		<p><strong>0.5 => fast, 1.0 => slow</strong></p>
+
+		<h2>How to Enhance Video Quality</h2>
+		<pre><code>ffmpeg -i input.mkv -vf scale=1920:1080 -preset slow -crf 18 output.mp4</code></pre>
+
+		<h2>How to Create a Video Grid</h2>
+		<pre><code>ffmpeg \
+   -i arch.mkv \
+   -i artix_dinit.mkv \
+   -i artix_runit.mkv \
+   -i artix_s6.mkv \
+  -filter_complex " \
+	  [0:v] setpts=PTS-STARTPTS, scale=hd1080 [a0]; \
+	  [1:v] setpts=PTS-STARTPTS, scale=hd1080 [a1]; \
+	  [2:v] setpts=PTS-STARTPTS, scale=hd1080 [a2]; \
+	  [3:v] setpts=PTS-STARTPTS, scale=hd1080 [a3]; \
+	  [a0][a1][a2][a3]xstack=inputs=4:layout=0_0|0_h0|w0_0|w0_h0[out] \
+	  " \
+	-map "[out]" \
+	-c:v libx264 -t '55' -f matroska out.mkv</code></pre>
+
+		<h2>How to Lower the Audio In and Out</h2>
+		<p>To lower the audio at the start:</p>
+		<pre><code>ffmpeg -i input.mp3 -af "afade=in:st=0:d=5" output.mp3</code></pre>
+		<p>To lower the audio at the end:</p>
+		<pre><code>ffmpeg -i input.mp3 -af "afade=out:st=0:d=5" output.mp3</code></pre>
+
+		<h2>How to Extract Frames from a GIF</h2>
+		<pre><code>ffmpeg -i input.gif -r 10 output_%03d.png</code></pre>
+
+		<footer>
+			<p>This guide provides various FFmpeg commands for video and audio processing. Use these commands to enhance your multimedia projects.</p>
+		</footer>
+
+	</body>
+</html>
