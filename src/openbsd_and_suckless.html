@@ -1,80 +1,85 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Installing OpenBSD and Suckless Software</title>
-    <link rel="stylesheet" type="text/css" href="openbsd_and_suckless.css">
-</head>
-<body>
-    <h1>How to install <strong>OpenBSD</strong> and the <strong>Suckless Software</strong></h1>
-	<img class="first-image" src="openbsd.png" alt="OpenBSD Logo">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>Installing OpenBSD and Suckless Software</title>
+		<link rel="stylesheet" type="text/css" href="openbsd_and_suckless.css">
+	</head>
+	<body>
+		<h1>How to install <strong>OpenBSD</strong> and the <strong>Suckless Software</strong></h1>
+		<br>
+		<img class="first-image" src="../images/openbsd_suckless.jpg" alt="OpenBSD Logo">
+		<br>
+		<h2>Step 1: Download and Install OpenBSD</h2>
+		<p>Download <a href="https://www.openbsd.org">OpenBSD</a> and follow the installation instructions. Note that the installation of OpenBSD is very easy.</p>
 
-    <h2>Step 1: Download and Install OpenBSD</h2>
-    <p>Download <a href="https://www.openbsd.org">OpenBSD</a> and follow the installation instructions. Note that the installation of OpenBSD is very easy.</p>
+		<h2>Step 2: Configure User Permissions</h2>
+		<p>After installation, log in as root to configure user permissions.</p>
+		<ol>
+			<li>Install a text editor of your choice:
+				<pre>pkg_add vim</pre>
+			</li>
+			<li>Edit or create the <code>doas</code> config file:
+				<pre>vim /etc/doas.conf</pre>
+				<p>Note: This is a sample <code>doas</code> config:</p>
+				<pre>permit nopass sh as root</pre>
+				<p>Note: The user is <code>sh</code> and <code>nopass</code> means don't prompt for a password every time <code>doas</code> is run.</p>
+			</li>
+		</ol>
 
-    <h2>Step 2: Configure User Permissions</h2>
-    <p>After installation, log in as root to configure user permissions.</p>
-    <ol>
-        <li>Install a text editor of your choice:
-            <pre>pkg_add vim</pre>
-        </li>
-        <li>Edit or create the <code>doas</code> config file:
-            <pre>vim /etc/doas.conf</pre>
-            <p>Note: This is a sample <code>doas</code> config:</p>
-            <pre>permit nopass sh as root</pre>
-            <p>Note: The user is <code>sh</code> and <code>nopass</code> means don't prompt for a password every time <code>doas</code> is run.</p>
-        </li>
-    </ol>
-
-    <h2>Step 3: Install Git and Create Directories</h2>
-    <p>Exit and log in as your user, then install <code>git</code>:</p>
-    <pre>doas pkg_add git</pre>
-    <p>Create directories to hold <code>dwm</code>, <code>st</code>, and <code>dmenu</code>:</p>
-    <pre>mkdir suckless
+		<h2>Step 3: Install Git and Create Directories</h2>
+		<p>Exit and log in as your user, then install <code>git</code>:</p>
+		<pre>doas pkg_add git</pre>
+		<p>Create directories to hold <code>dwm</code>, <code>st</code>, and <code>dmenu</code>:</p>
+		<pre>mkdir suckless
 cd suckless/
 git clone --depth=1 https://git.suckless.org/dwm
 git clone --depth=1 https://git.suckless.org/st
 git clone --depth=1 https://git.suckless.org/dmenu</pre>
 
-    <h2>Step 4: Configure and Install Suckless Software</h2>
-    <p>Uncomment the necessary lines in the <code>config.mk</code> file for each software:</p>
-    <h3>dwm</h3>
-    <pre>cd dwm/
+		<h2>Step 4: Configure and Install Suckless Software</h2>
+		<p>Uncomment the necessary lines in the <code>config.mk</code> file for each software:</p>
+		<h3>dwm</h3>
+		<pre>cd dwm/
 vim config.mk</pre>
-    <img src="dwm_line.png" alt="Uncomment dwm line">
-    <pre>make
+		<img src="../images/openbsd_dwm.png" alt="Uncomment dwm line">
+		<pre>make
 doas make install</pre>
 
-    <h3>st</h3>
-    <pre>cd st/
+		<h3>st</h3>
+		<pre>cd st/
 vim config.mk</pre>
-    <img src="dwm_line.png" alt="Uncomment st line">
-    <pre>make
+		<img src="../images/openbsd_st.png" alt="Uncomment st line">
+		<pre>make
 doas make install</pre>
 
-    <h3>dmenu</h3>
-    <pre>cd dmenu/
+		<h3>dmenu</h3>
+		<pre>cd dmenu/
 vim config.mk</pre>
-    <img src="dwm_line.png" alt="Uncomment dmenu line">
-    <pre>make
+		<img src="../images/openbsd_dmenu.png" alt="Uncomment dmenu line">
+		<pre>make
 doas make install</pre>
 
-    <h2>Step 5: Create an .xsession File</h2>
-    <p>Create an <code>.xsession</code> file to use <code>xenodm</code> to launch <code>dwm</code>:</p>
-    <pre>vim .xsession</pre>
-    <img src="dwm_line.png" alt="Uncomment dwm line">
+		<h2>Step 5: Create an .xsession File</h2>
+		<p>Create an <code>.xsession</code> file to use <code>xenodm</code> to launch <code>dwm</code>:</p>
+		<pre>vim .xsession</pre>
+		<img src="../images/openbsd_xsession.png" alt="Uncomment dwm line">
 
-    <h2>Step 6: Enable xenodm</h2>
-    <p>Enable <code>xenodm</code> and reboot:</p>
-    <pre>doas rcctl enable xenodm
+		<h2>Step 6: Enable xenodm</h2>
+		<p>Enable <code>xenodm</code> and reboot:</p>
+		<pre>doas rcctl enable xenodm
 doas shutdown -r now</pre>
 
-    <h2>Step 7: Final Steps</h2>
-    <p>After reboot, you should see the <code>xenodm</code> login screen. Log in with your user and password, and <code>dwm</code> should start.</p>
+		<h2>Step 7: Final Steps</h2>
+		<p>After reboot, you should see the <code>xenodm</code> login screen. Log in with your user and password, and <code>dwm</code> should start.</p>
 
-	<h2>Optional: Disable xconsole</h2>
-    <p>Note: To disable the xconsole, edit the following file and comment the line that has <code>xconsole</code>:</p>
-    <pre>doas vim /etc/X11/xenodm/Xsetup_0</pre>
-</body>
+		<h2>Optional: Disable xconsole</h2>
+		<p>Note: To disable the xconsole, edit the following file and comment the line that has <code>xconsole</code>:</p>
+		<pre>doas vim /etc/X11/xenodm/Xsetup_0</pre>
+		<p>Reboot and the xconsole should be gone</p>
+		<pre>Shutdown -r now</pre>
+		<br>
+		<p><em>***Et voilà!***</em></p>
+	</body>
 </html>
