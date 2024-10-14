@@ -16,6 +16,7 @@ h1 {
   margin-bottom: 40px;
 }
 
+
 .card-container {
   display: flex;
   flex-wrap: wrap;
@@ -88,4 +89,34 @@ h1 {
 
 .about-section a:hover {
   text-decoration: underline;
+}
+
+.slider {
+	width: calc(100vw - 40px);
+	height: 900px;
+	overflow: hidden;
+	position: relative;
+	border-radius: 10px;
+}
+
+.slides {
+	display: flex;
+	width: 300%;
+	animation: slide 18s infinite;
+}
+
+.slides img {
+	width: calc(100vw - 10px);
+	height: 100%;
+	object-fit: cover;
+}
+
+@keyframes slide {
+	0% { transform: translateX(0); }
+	16.66% { transform: translateX(0); }
+	33.33% { transform: translateX(-100vw); }
+	50% { transform: translateX(-200vw); }
+	66.66% { transform: translateX(-300vw); }
+	83.33% { transform: translateX(-400vw); }
+	100% { transform: translateX(-500vw); }
 }
