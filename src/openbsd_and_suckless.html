@@ -9,7 +9,7 @@
 	<body>
 		<h1>How to install <strong>OpenBSD</strong> and the <strong>Suckless Software</strong></h1>
 		<br>
-		<img class="first-image" src="../images/openbsd_suckless.jpg" alt="OpenBSD Logo">
+		<img class="first-image" src="../images/openbsd_suckless.webp" alt="OpenBSD Logo">
 		<br>
 		<h2>Step 1: Download and Install OpenBSD</h2>
 		<p>Download <a href="https://www.openbsd.org">OpenBSD</a> and follow the installation instructions. Note that the installation of OpenBSD is very easy.</p>
@@ -43,28 +43,28 @@ git clone --depth=1 https://git.suckless.org/dmenu</pre>
 		<h3>dwm</h3>
 		<pre>cd dwm/
 vim config.mk</pre>
-		<img src="../images/openbsd_dwm.png" alt="Uncomment dwm line">
+		<img src="../images/openbsd_dwm.webp" alt="Uncomment dwm line">
 		<pre>make
 doas make install</pre>
 
 		<h3>st</h3>
 		<pre>cd st/
 vim config.mk</pre>
-		<img src="../images/openbsd_st.png" alt="Uncomment st line">
+		<img src="../images/openbsd_st.webp" alt="Uncomment st line">
 		<pre>make
 doas make install</pre>
 
 		<h3>dmenu</h3>
 		<pre>cd dmenu/
 vim config.mk</pre>
-		<img src="../images/openbsd_dmenu.png" alt="Uncomment dmenu line">
+		<img src="../images/openbsd_dmenu.webp" alt="Uncomment dmenu line">
 		<pre>make
 doas make install</pre>
 
 		<h2>Step 5: Create an .xsession File</h2>
 		<p>Create an <code>.xsession</code> file to use <code>xenodm</code> to launch <code>dwm</code>:</p>
 		<pre>vim .xsession</pre>
-		<img src="../images/openbsd_xsession.png" alt="Uncomment dwm line">
+		<img src="../images/openbsd_xsession.webp" alt="Uncomment dwm line">
 
 		<h2>Step 6: Enable xenodm</h2>
 		<p>Enable <code>xenodm</code> and reboot:</p>
