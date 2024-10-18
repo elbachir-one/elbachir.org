@@ -9,11 +9,6 @@ body {
 	align-items: center;
 }
 
-main {
-	background-color: #000;
-	width: 100%;
-}
-
 h1 {
 	font-size: 2.5em;
 	color: #e3f2fd;
@@ -93,37 +88,6 @@ h1 {
 
 .about-section a:hover {
 	text-decoration: underline;
-}
-
-.slider {
-	width: 100vw;
-	height: 500px;
-	overflow: hidden;
-	position: relative;
-	border-radius: 10px;
-	margin-top: 50px;
-}
-
-.slides {
-	display: flex;
-	width: 600%;
-	animation: slide 18s infinite;
-}
-
-.slides img {
-	width: 100vw;
-	height: 500px;
-	object-fit: cover;
-}
-
-@keyframes slide {
-	0% { transform: translateX(0); }
-	16.66% { transform: translateX(0); }
-	33.33% { transform: translateX(-100vw); }
-	50% { transform: translateX(-200vw); }
-	66.66% { transform: translateX(-300vw); }
-	83.33% { transform: translateX(-400vw); }
-	100% { transform: translateX(-500vw); }
 }
 
 .top-bar {
