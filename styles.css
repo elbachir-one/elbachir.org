@@ -9,6 +9,11 @@ body {
 	align-items: center;
 }
 
+main {
+	background-color: #000;
+	width: 100%;
+}
+
 h1 {
 	font-size: 2.5em;
 	color: #e3f2fd;
@@ -91,8 +96,8 @@ h1 {
 }
 
 .slider {
-	width: calc(100vw - 40px);
-	height: 900px;
+	width: 100vw;
+	height: 500px;
 	overflow: hidden;
 	position: relative;
 	border-radius: 10px;
@@ -101,13 +106,13 @@ h1 {
 
 .slides {
 	display: flex;
-	width: 300%;
+	width: 600%;
 	animation: slide 18s infinite;
 }
 
 .slides img {
-	width: calc(100vw - 10px);
-	height: 100%;
+	width: 100vw;
+	height: 500px;
 	object-fit: cover;
 }
 
