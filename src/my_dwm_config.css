@@ -7,44 +7,42 @@ body {
 	color: #fff;
 }
 
-main {
-	max-width: 90%;
-	margin: 20px auto;
-	padding: 20px;
-	background-color: #005577;
-	border-radius: 10px;
-	box-sizing: border-box;
-	font-size: 1.2rem;
-}
-
 h1 {
 	text-align: center;
 }
+
 h1, h2, h3, h4, h5, h6 {
 	color: #e5c07b;
 }
+
 table {
 	width: 100%;
 	border-collapse: collapse;
 	margin: 20px 0;
 }
+
 table, th, td {
 	border: 1px solid #3e4451;
 }
+
 th, td {
 	padding: 12px;
 	text-align: left;
 }
+
 th {
 	background-color: #1e2127;
 }
+
 .section {
 	margin: 20px;
 }
+
 .section-title {
 	font-size: 1.75em;
 	margin-bottom: 10px;
 }
+
 .icon {
 	font-family: 'Nerd Font', sans-serif;
 	font-size: 1.5em;
