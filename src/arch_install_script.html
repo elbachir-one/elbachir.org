@@ -1,53 +1,55 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ArchMega Setup</title>
-  <link rel="stylesheet" href="arch_install_script.css">
-</head>
-<body>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>ArchMega Setup</title>
+		<link rel="stylesheet" href="arch_install_script.css">
+	</head>
+	<body>
 
-  <h1>🚀 ArchMega</h1>
-  <p><strong>archMega.sh</strong> is a Script to Install ArchLinux.</p>
+	<main>
+		<h1>🚀 ArchMega</h1>
+		<p><strong>archMega.sh</strong> is a Script to Install ArchLinux.</p>
 
-  <div class="code-section">
-    <pre><code>wget https://github.com/elbachir-one/ArchMega/blob/main/archMega.sh
+		<div class="code-section">
+			<pre><code>wget https://github.com/elbachir-one/ArchMega/blob/main/archMega.sh
 chmod +x archMega.sh
 ./archMega.sh</code></pre>
-  </div>
+		</div>
 
-  <div class="note">
-    <strong>Note:</strong> The script will launch <code>cfdisk</code>, and you need to create 3 partitions:
-    <ol>
-      <li>The first one is <strong>EFI</strong>.</li>
-      <li>The second one is the <strong>SWAP</strong> partition.</li>
-      <li>The third is the <strong>file system</strong> in this order.</li>
-    </ol>
-  </div>
+		<div class="note">
+			<strong>Note:</strong> The script will launch <code>cfdisk</code>, and you need to create 3 partitions:
+			<ol>
+				<li>The first one is <strong>EFI</strong>.</li>
+				<li>The second one is the <strong>SWAP</strong> partition.</li>
+				<li>The third is the <strong>file system</strong> in this order.</li>
+			</ol>
+		</div>
 
-  <div class="highlight">
-    <strong>Important:</strong> After the installation is finished, you will need to reboot the system.
-  </div>
+		<div class="highlight">
+			<strong>Important:</strong> After the installation is finished, you will need to reboot the system.
+		</div>
 
-  <h2>🛠 Setup Suckless</h2>
-  <p><strong>suckLess.sh</strong> is a Script to Set Up The Suckless Tools.</p>
+		<h2>🛠 Setup Suckless</h2>
+		<p><strong>suckLess.sh</strong> is a Script to Set Up The Suckless Tools.</p>
 
-  <div class="note">
-    <strong>Note:</strong> Make sure you login with your username.
-  </div>
+		<div class="note">
+			<strong>Note:</strong> Make sure you login with your username.
+		</div>
 
-  <div class="code-section">
-    <pre><code>wget https://github.com/elbachir-one/ArchMega/blob/main/suckLess.sh
+		<div class="code-section">
+			<pre><code>wget https://github.com/elbachir-one/ArchMega/blob/main/suckLess.sh
 chmod +x suckLess.sh
 ./suckLess.sh</code></pre>
-  </div>
+		</div>
 
-  <div class="highlight">
-    <strong>Important:</strong> At the end, your PC will reboot automatically.
-  </div>
+		<div class="highlight">
+			<strong>Important:</strong> At the end, your PC will reboot automatically.
+		</div>
+	</main>
 
-  <p><em>***Et voilà!***</em></p>
+		<p><em>***Et voilà!***</em></p>
 
-</body>
+	</body>
 </html>

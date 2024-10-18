@@ -6,6 +6,20 @@ body {
 	background-color: #282c34;
 	color: #fff;
 }
+
+main {
+	max-width: 90%;
+	margin: 20px auto;
+	padding: 20px;
+	background-color: #005577;
+	border-radius: 10px;
+	box-sizing: border-box;
+	font-size: 1.2rem;
+}
+
+h1 {
+	text-align: center;
+}
 h1, h2, h3, h4, h5, h6 {
 	color: #e5c07b;
 }
