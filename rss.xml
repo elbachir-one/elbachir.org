@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<rss version="2.0">
+	<channel>
+		<title>El Bachir (alphab91)</title>
+		<link>https://www.yourwebsite.com</link>
+		<description>A collection of README files for various Linux setups and configurations.</description>
+		<lastBuildDate>Fri, 19 Oct 2024 12:00:00 GMT</lastBuildDate>
+
+		<item>
+			<title>Alpine Linux i3wm</title>
+			<link>https://www.yourwebsite.com/src/alpine_linux_i3wm.html</link>
+			<description>Setup a nice development environment with Alpine Linux and i3wm.</description>
+			<pubDate>Fri, 19 Oct 2024 12:00:00 GMT</pubDate>
+		</item>
+
+		<item>
+			<title>Arch Linux Install Script</title>
+			<link>https://www.yourwebsite.com/src/arch_install_script.html</link>
+			<description>A step-by-step guide to installing Arch Linux.</description>
+			<pubDate>Fri, 19 Oct 2024 12:00:00 GMT</pubDate>
+		</item>
+
+		<item>
+			<title>Configure Virt Manager on Void Linux</title>
+			<link>https://www.yourwebsite.com/src/void_virt_manager.html</link>
+			<description>Learn how to configure Virt Manager on Void Linux.</description>
+			<pubDate>Fri, 19 Oct 2024 12:00:00 GMT</pubDate>
+		</item>
+
+		<item>
+			<title>My DWM Config and Key Bindings</title>
+			<link>https://www.yourwebsite.com/src/my_dwm_config.html</link>
+			<description>Understanding how my DWM config is set up.</description>
+			<pubDate>Fri, 19 Oct 2024 12:00:00 GMT</pubDate>
+		</item>
+
+		<item>
+			<title>Setup OpenBSD</title>
+			<link>https://www.yourwebsite.com/src/openbsd_and_suckless.html</link>
+			<description>How to set up OpenBSD with the Suckless Desktop.</description>
+			<pubDate>Fri, 19 Oct 2024 12:00:00 GMT</pubDate>
+		</item>
+
+		<item>
+			<title>Setup The Suckless Utils Using XBPS-SRC</title>
+			<link>https://www.yourwebsite.com/src/void_src_suckless.html</link>
+			<description>A guide to setting up Suckless utilities using XBPS-SRC on Void Linux.</description>
+			<pubDate>Fri, 19 Oct 2024 12:00:00 GMT</pubDate>
+		</item>
+
+		<item>
+			<title>Some FFmpeg Commands</title>
+			<link>https://www.yourwebsite.com/src/ffmpeg_my_guide.html</link>
+			<description>Commands that I use with FFmpeg day to day.</description>
+			<pubDate>Fri, 19 Oct 2024 12:00:00 GMT</pubDate>
+		</item>
+
+		<item>
+			<title>T2sde Linux using WSL</title>
+			<link>https://www.yourwebsite.com/src/t2sde_wsl.html</link>
+			<description>Instructions on how to use T2SDE Linux with Windows Subsystem for Linux.</description>
+			<pubDate>Fri, 19 Oct 2024 12:00:00 GMT</pubDate>
+		</item>
+
+		<item>
+			<title>Void Linux Install Script</title>
+			<link>https://www.yourwebsite.com/src/void_install_script.html</link>
+			<description>A script for installing Void Linux.</description>
+			<pubDate>Fri, 19 Oct 2024 12:00:00 GMT</pubDate>
+		</item>
+
+	</channel>
+</rss>

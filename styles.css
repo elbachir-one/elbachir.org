@@ -1,6 +1,6 @@
 body {
 	font-family: Arial, sans-serif;
-	background-color: #0d1117;
+	background-color: #111;
 	color: #c9d1d9;
 	padding: 20px;
 	margin: 0;
@@ -10,10 +10,14 @@ body {
 }
 
 h1 {
-	font-size: 2.5em;
-	color: #e3f2fd;
+	font-size: 2.8em;
+	background-color: #005577;
+	color: #ddd;
 	text-align: center;
-	margin-bottom: 40px;
+	padding: 20px;
+	margin-bottom: 60px;
+	margin-top: 80px;
+	border-radius: 10px;
 }
 
 .card-container {

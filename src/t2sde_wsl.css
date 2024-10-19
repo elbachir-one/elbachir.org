@@ -1,66 +1,136 @@
+/* Base styles for all devices */
 body {
-  font-family: Arial, sans-serif;
-  background-color: #b7cfd7;
-  color: #333;
-  line-height: 1.6;
-  padding: 20px;
-  font-size: 18px;
+	font-family: Arial, sans-serif;
+	background-color: #b7cfd7;
+	color: #333;
+	line-height: 1.6;
+	padding: 20px;
+	margin: 0;
+	font-size: 1rem;
+	box-sizing: border-box;
 }
+
 h1, h2, h3 {
-  color: #2c3e50;
+	color: #2c3e50;
+	line-height: 1.2;
 }
+
 h1 {
-  font-size: 3em;
-  margin-bottom: 20px;
+	font-size: 2.5rem;
+	margin-bottom: 1.5rem;
 }
+
 h2 {
-  font-size: 2.5em;
-  margin-top: 40px;
+	font-size: 2rem;
+	margin-top: 2rem;
 }
+
 h3 {
-  font-size: 2em;
-  margin-top: 20px;
+	font-size: 1.75rem;
+	margin-top: 1.5rem;
 }
+
 p {
-  margin: 10px 0;
+	margin: 1rem 0;
 }
+
+ul {
+	margin-left: 20px;
+}
+
+pre, code {
+	background-color: #000;
+	color: #fff;
+	border-radius: 5px;
+	padding: 1rem;
+	overflow-x: auto;
+	font-size: 0.875rem;
+	white-space: pre-wrap;
+}
+
 pre {
-  background-color: #000;
-  color: #fff;
-  padding: 10px;
-  border-radius: 5px;
-  overflow-x: auto;
-  font-size: 16px;
+	margin-bottom: 20px;
 }
+
 code {
-  background-color: #000;
-  padding: 5px;
-  border-radius: 3px;
-  color: #d63384;
-  font-size: 16px;
+	padding: 0.25rem 0.5rem;
+	color: #d63384;
 }
+
 a {
-  color: #3498db;
-  text-decoration: none;
+	color: #3498db;
+	text-decoration: none;
 }
+
 a:hover {
-  text-decoration: underline;
+	text-decoration: underline;
 }
-.note, .highlight {
-  font-size: 18px;
-}
-.note {
-  background-color: #ffeeba;
-  padding: 10px;
-  border-left: 5px solid #ffc107;
-  margin: 20px 0;
-}
-.highlight {
-  background-color: #d4edda;
-  padding: 10px;
-  border-left: 5px solid #28a745;
-  margin: 20px 0;
-}
+
 .code-section {
-  margin: 20px 0;
+	margin: 2rem 0;
+}
+
+.note, .highlight {
+	font-size: 1rem;
+	padding: 1rem;
+	margin: 1.5rem 0;
+	border-left: 5px solid;
+}
+
+.note {
+	background-color: #ffeeba;
+	border-color: #ffc107;
+}
+
+.highlight {
+	background-color: #d4edda;
+	border-color: #28a745;
+}
+
+/* Media queries for responsiveness */
+@media (max-width: 768px) {
+	body {
+		font-size: 0.875rem;
+		padding: 10px;
+	}
+
+	h1 {
+		font-size: 2rem;
+	}
+
+	h2 {
+		font-size: 1.75rem;
+	}
+
+	h3 {
+		font-size: 1.5rem;
+	}
+
+	pre, code {
+		font-size: 0.75rem;
+	}
+}
+
+@media (max-width: 480px) {
+	body {
+		font-size: 0.75rem;
+		padding: 10px;
+	}
+
+	h1 {
+		font-size: 1.75rem;
+	}
+
+	h2 {
+		font-size: 1.5rem;
+	}
+
+	h3 {
+		font-size: 1.25rem;
+	}
+
+	pre, code {
+		font-size: 0.7rem;
+		padding: 0.5rem;
+	}
 }

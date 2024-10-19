@@ -1,44 +1,44 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>T2SDE on WSL Setup Guide</title>
-  <link rel="stylesheet" href="t2sde_wsl.css">
-</head>
-<body>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>T2SDE on WSL Setup Guide</title>
+		<link rel="stylesheet" href="t2sde_wsl.css">
+	</head>
+	<body>
 
-  <h1>📖 T2SDE on WSL Setup Guide</h1>
-  <p>This guide outlines the steps to set up T2 System Development Environment (T2SDE) on Windows Subsystem for Linux (WSL) using a virtual machine (VM).</p>
+		<h1>📖 T2SDE on WSL Setup Guide</h1>
+		<p>This guide outlines the steps to set up T2 System Development Environment (T2SDE) on Windows Subsystem for Linux (WSL) using a virtual machine (VM).</p>
 
-  <h2>📋 Requirements</h2>
-  <ul>
-    <li><strong>Virtualization Software</strong>: (e.g., VirtualBox, VMware, or QEMU)</li>
-    <li><strong>T2SDE ISO</strong>: Download from <a href="http://www.t2sde.org/">T2SDE official website</a></li>
-    <li><strong>WSL</strong>: Windows Subsystem for Linux enabled on your machine</li>
-  </ul>
+		<h2>📋 Requirements</h2>
+		<ul>
+			<li><strong>Virtualization Software</strong>: (e.g., VirtualBox, VMware, or QEMU)</li>
+			<li><strong>T2SDE ISO</strong>: Download from <a href="http://www.t2sde.org/">T2SDE official website</a></li>
+			<li><strong>WSL</strong>: Windows Subsystem for Linux enabled on your machine</li>
+		</ul>
 
-  <h2>🛠 Steps to Setup</h2>
+		<h2>🛠 Steps to Setup</h2>
 
-  <h3>1. Download T2SDE ISO</h3>
-  <p>Visit <a href="http://www.t2sde.org/">T2SDE</a> and download the latest ISO.</p>
+		<h3>1. Download T2SDE ISO</h3>
+		<p>Visit <a href="http://www.t2sde.org/">T2SDE</a> and download the latest ISO.</p>
 
-  <h3>2. Create and Configure a Virtual Machine</h3>
-  <ul>
-    <li>Use your preferred VM software to create a new virtual machine.</li>
-    <li>Set <strong>bridged networking</strong> so the VM gets an IP address on your network.</li>
-    <li>Boot the VM and install T2SDE, just the basic. Watch this video for guidance: <a href="https://www.youtube.com/watch?v=pve_pLXzk-0">T2SDE Install</a>.</li>
-  </ul>
+		<h3>2. Create and Configure a Virtual Machine</h3>
+		<ul>
+			<li>Use your preferred VM software to create a new virtual machine.</li>
+			<li>Set <strong>bridged networking</strong> so the VM gets an IP address on your network.</li>
+			<li>Boot the VM and install T2SDE, just the basic. Watch this video for guidance: <a href="https://www.youtube.com/watch?v=pve_pLXzk-0">T2SDE Install</a>.</li>
+		</ul>
 
-  <h3>3. Create a TAR Archive of T2SDE</h3>
-  <p>Change to the root directory:</p>
-  <div class="code-section">
-    <pre><code>cd /</code></pre>
-  </div>
+		<h3>3. Create a TAR Archive of T2SDE</h3>
+		<p>Change to the root directory:</p>
+		<div class="code-section">
+			<pre><code>cd /</code></pre>
+		</div>
 
-  <p>Create a tarball of the root directory, excluding unnecessary directories/files:</p>
-  <div class="code-section">
-    <pre><code>tar -cvf t2sde-wsl.tar \
+		<p>Create a tarball of the root directory, excluding unnecessary directories/files:</p>
+		<div class="code-section">
+			<pre><code>tar -cvf t2sde-wsl.tar \
   --exclude='t2sde-wsl.tar' \
   --exclude='proc/kcore' \
   --exclude='lib/firmware/*' \
@@ -46,49 +46,49 @@
   --exclude='usr/X11R7/*' \
   --exclude='boot/*' \
   --exclude='opt/*' [a-z]*</code></pre>
-  </div>
+		</div>
 
-  <p>Set a password for root:</p>
-  <div class="code-section">
-    <pre><code>passwd root</code></pre>
-  </div>
+		<p>Set a password for root:</p>
+		<div class="code-section">
+			<pre><code>passwd root</code></pre>
+		</div>
 
-  <h3>4. Transfer the TAR Archive to Windows</h3>
-  <p>Use <code>scp</code> to copy the <code>t2sde-wsl.tar</code> file from the VM to your Windows machine:</p>
-  <div class="code-section">
-    <pre><code>scp root@the.ip.for.vm:/t2sde-wsl.tar .</code></pre>
-  </div>
+		<h3>4. Transfer the TAR Archive to Windows</h3>
+		<p>Use <code>scp</code> to copy the <code>t2sde-wsl.tar</code> file from the VM to your Windows machine:</p>
+		<div class="code-section">
+			<pre><code>scp root@the.ip.for.vm:/t2sde-wsl.tar .</code></pre>
+		</div>
 
-  <h3>5. Import T2SDE into WSL</h3>
-  <p>Open a Windows terminal (CMD or PowerShell) and import the TAR archive into WSL:</p>
-  <div class="code-section">
-    <pre><code>wsl --import T2 C:\Users\yourusername\t2sde .\t2sde-wsl.tar</code></pre>
-  </div>
+		<h3>5. Import T2SDE into WSL</h3>
+		<p>Open a Windows terminal (CMD or PowerShell) and import the TAR archive into WSL:</p>
+		<div class="code-section">
+			<pre><code>wsl --import T2 C:\Users\yourusername\t2sde .\t2sde-wsl.tar</code></pre>
+		</div>
 
-  <h3>6. Start T2SDE on WSL</h3>
-  <p>Once imported, start the T2SDE instance by running:</p>
-  <div class="code-section">
-    <pre><code>wsl -d T2</code></pre>
-  </div>
+		<h3>6. Start T2SDE on WSL</h3>
+		<p>Once imported, start the T2SDE instance by running:</p>
+		<div class="code-section">
+			<pre><code>wsl -d T2</code></pre>
+		</div>
 
-  <h3>7. Cleanup</h3>
-  <p>You can now remove the tar file if no longer needed:</p>
-  <div class="code-section">
-    <pre><code>rm .\t2sde-wsl.tar</code></pre>
-  </div>
+		<h3>7. Cleanup</h3>
+		<p>You can now remove the tar file if no longer needed:</p>
+		<div class="code-section">
+			<pre><code>rm .\t2sde-wsl.tar</code></pre>
+		</div>
 
-  <hr>
+		<hr>
 
-  <h2>🔧 Troubleshooting</h2>
-  <ul>
-    <li>Ensure that your VM has network access (check bridge network settings if needed).</li>
-    <li>If you encounter errors during the import, verify the path of the <code>t2sde-wsl.tar</code> file and ensure it was transferred correctly.</li>
-  </ul>
+		<h2>🔧 Troubleshooting</h2>
+		<ul>
+			<li>Ensure that your VM has network access (check bridge network settings if needed).</li>
+			<li>If you encounter errors during the import, verify the path of the <code>t2sde-wsl.tar</code> file and ensure it was transferred correctly.</li>
+		</ul>
 
-  <h2>🎉 Conclusion</h2>
-  <p>You've successfully launched T2SDE on WSL by following these procedures. Enjoy using and exploring T2SDE in the comfort of your Windows environment.</p>
+		<h2>🎉 Conclusion</h2>
+		<p>You've successfully launched T2SDE on WSL by following these procedures. Enjoy using and exploring T2SDE in the comfort of your Windows environment.</p>
 
-   <p><em>***Et voilà!***</em></p>
+		<p><em>***Et voilà!***</em></p>
 
-</body>
+	</body>
 </html>

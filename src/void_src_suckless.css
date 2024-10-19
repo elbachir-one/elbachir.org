@@ -1,70 +1,112 @@
 body {
-  font-family: Arial, sans-serif;
-  background-color: #dde8ec;
-  color: #333;
-  line-height: 1.6;
-  padding: 20px;
-  font-size: 18px;
+	font-family: Arial, sans-serif;
+	background-color: #aecedb;
+	color: #333;
+	line-height: 1.6;
+	padding: 20px;
+	font-size: 18px;
 }
-h1, h2, h3, h4 {
-  color: #2c3e50;
+
+h1, h2, h3 {
+	color: #000;
 }
+
 h1 {
-  font-size: 3em;
-  margin-bottom: 20px;
+	font-size: 2.5em;
+	margin-bottom: 20px;
 }
+
 h2 {
-  font-size: 2.5em;
-  margin-top: 30px;
+	font-size: 2em;
+	margin-top: 30px;
 }
+
 h3 {
-  font-size: 2em;
-  margin-top: 20px;
+	font-size: 1.75em;
+	margin-top: 20px;
 }
+
 p, li {
-  margin: 10px 0;
+	margin: 10px 0;
 }
+
 pre {
-  background-color: #333;
-  color: #fff;
-  padding: 10px;
-  border-radius: 5px;
-  overflow-x: auto;
-  font-size: 16px;
+	background-color: #000;
+	color: #fff;
+	padding: 10px;
+	border-radius: 5px;
+	overflow-x: auto;
+	font-size: 16px;
 }
+
 code {
-  background-color: #f4f4f9;
-  padding: 5px;
-  border-radius: 3px;
-  color: #d63384;
-  font-size: 16px;
+	background-color: #f4f4f9;
+	padding: 5px;
+	border-radius: 3px;
+	color: #d63384;
+	font-size: 16px;
 }
+
 a {
-  color: #3498db;
-  text-decoration: none;
+	color: #3498db;
+	text-decoration: none;
 }
+
 a:hover {
-  text-decoration: underline;
+	text-decoration: underline;
 }
+
 .note, .highlight {
-  font-size: 18px;
+	font-size: 18px;
 }
+
 .note {
-  background-color: #ffeeba;
-  padding: 10px;
-  border-left: 5px solid #ffc107;
-  margin: 20px 0;
+	background-color: #ffeeba;
+	padding: 10px;
+	border-left: 5px solid #ffc107;
+	margin: 20px 0;
 }
+
 .highlight {
-  background-color: #d4edda;
-  padding: 10px;
-  border-left: 5px solid #28a745;
-  margin: 20px 0;
+	background-color: #d4edda;
+	padding: 10px;
+	border-left: 5px solid #28a745;
+	margin: 20px 0;
 }
+
 .code-section {
-  margin: 20px 0;
+	margin: 20px 0;
 }
+
 ul {
-  padding-left: 20px;
-  font-size: 18px;
+	padding-left: 20px;
+	font-size: 18px;
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+	body {
+		padding: 10px;
+		font-size: 16px;
+	}
+
+	h1 {
+		font-size: 2em;
+	}
+
+	h2 {
+		font-size: 1.5em;
+	}
+
+	h3 {
+		font-size: 1.25em;
+	}
+
+	pre {
+		font-size: 14px;
+	}
+
+	code {
+		font-size: 14px;
+	}
 }
