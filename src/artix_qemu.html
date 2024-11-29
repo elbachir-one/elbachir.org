@@ -14,6 +14,7 @@
 			<h2>🔧 Installation</h2>
 			<pre><code>sudo pacman -S virt-manager libvirt-dinit qemu dnsmasq-dinit bridge-utils openbsd-netcat vde2</code></pre>
 
+			<p>Note: Please ensure that you replace 'Dinit' with the specific init system you are using, as this step is essential for proper configuration and functionality.</p>
 			<h2>🔧 Setup</h2>
 			<pre><code>sudo usermod -aG kvm &lt;username&gt;</code>
 <code>modprobe kvm-&lt;your CPU&gt;    # For AMD use `kvm-amd` and for Intel `kvm-intel`</code>
