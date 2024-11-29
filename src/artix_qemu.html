@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>Setup Virt Manager for Artix Linux</title>
+		<link rel="stylesheet" href="artix_qemu.css">
+	</head>
+	<body>
+
+		<div id="content">
+			<h1>⚙️ Setup Virt Manager for Artix Linux</h1>
+
+			<h2>🔧 Installation</h2>
+			<pre><code>sudo pacman -S virt-manager libvirt-dinit qemu dnsmasq-dinit bridge-utils openbsd-netcat vde2</code></pre>
+
+			<h2>🔧 Setup</h2>
+			<pre><code>sudo usermod -aG kvm &lt;username&gt;</code>
+<code>modprobe kvm-&lt;your CPU&gt;    # For AMD use `kvm-amd` and for Intel `kvm-intel`</code>
+<code>sudo usermod -a -G libvirt &lt;username&gt;</code></pre>
+
+			<h2>🔧 Configuration</h2>
+
+			<h3>1. Edit default URI for libvirt</h3>
+			<pre><code>sudo vim /etc/libvirt/libvirt.conf</code></pre>
+			<ul>
+				<li>Uncomment the following line:</li>
+				<ul>
+					<li><code>uri_default = "qemu:///system"</code></li>
+				</ul>
+			</ul>
+
+			<h3>2. Configure QEMU user permissions</h3>
+			<pre><code>sudo vim /etc/libvirt/qemu.conf</code></pre>
+			<ul>
+				<li>Uncomment and edit lines 519 and 523:</li>
+				<ul>
+					<li><code>user = "your username"</code></li>
+					<li><code>group = "libvirt"</code></li>
+				</ul>
+			</ul>
+
+			<h2>🚀 Enable Services</h2>
+			<pre><code>sudo dinitctl enable libvirtd</code>
+<code>sudo reboot</code></pre>
+
+			<p><strong>Note:</strong> After rebooting, you can start by creating the VM using the plus button. However, before that, you need to check the box to start the virtual network on boot.</p>
+			<p>Go to the menu bar and click on <strong>Edit → Connection Details</strong>. A window will open; go to <strong>Virtual Networks</strong> and check the box for <em>Autostart</em>.</p>
+
+			<h2>🎉 Finish</h2>
+			<hr>
+			<p><strong>Et voilà</strong> – you've successfully set up Virt Manager on Artix Linux!</p>
+		</div>
+	</body>
+</html>
