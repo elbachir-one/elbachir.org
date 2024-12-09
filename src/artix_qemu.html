@@ -14,7 +14,7 @@
 			<h2>🔧 Installation</h2>
 			<pre><code>sudo pacman -S virt-manager libvirt-dinit qemu dnsmasq-dinit bridge-utils openbsd-netcat vde2</code></pre>
 
-			<p>Note: Please ensure that you replace 'Dinit' with the specific init system you are using, as this step is essential for proper configuration and functionality.</p>
+			<p class="note"><strong>Note:</strong> Please ensure that you replace 'Dinit' with the specific init system you are using, as this step is essential for proper configuration and functionality.</p>
 			<h2>🔧 Setup</h2>
 			<pre><code>sudo usermod -aG kvm &lt;username&gt;</code>
 <code>modprobe kvm-&lt;your CPU&gt;    # For AMD use `kvm-amd` and for Intel `kvm-intel`</code>
@@ -45,12 +45,13 @@
 			<pre><code>sudo dinitctl enable libvirtd</code>
 <code>sudo reboot</code></pre>
 
-			<p><strong>Note:</strong> After rebooting, you can start by creating the VM using the plus button. However, before that, you need to check the box to start the virtual network on boot.</p>
+			<p class="note"><strong>Note:</strong> After rebooting, you can start by creating the VM using the plus button. However, before that, you need to check the box to start the virtual network on boot.</p>
 			<p>Go to the menu bar and click on <strong>Edit → Connection Details</strong>. A window will open; go to <strong>Virtual Networks</strong> and check the box for <em>Autostart</em>.</p>
 
 			<h2>🎉 Finish</h2>
 			<hr>
-			<p><strong>Et voilà</strong> – you've successfully set up Virt Manager on Artix Linux!</p>
+			<br>
+			<p><strong>Et voilà</strong></p>
 		</div>
 	</body>
 </html>

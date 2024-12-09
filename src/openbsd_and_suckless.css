@@ -62,7 +62,7 @@ img {
 }
 
 @media (min-width: 768px) {
-	body {
+body {
 		margin-left: 150px;
 		margin-right: 150px;
 	}

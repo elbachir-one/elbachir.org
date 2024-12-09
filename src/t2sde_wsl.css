@@ -1,4 +1,3 @@
-/* Base styles for all devices */
 body {
 	font-family: Arial, sans-serif;
 	background-color: #b7cfd7;
@@ -87,7 +86,6 @@ a:hover {
 	border-color: #28a745;
 }
 
-/* Media queries for responsiveness */
 @media (max-width: 768px) {
 	body {
 		font-size: 0.875rem;

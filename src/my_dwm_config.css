@@ -46,49 +46,49 @@ th {
 }
 
 @media (max-width: 768px) {
-	h1, h2, h3 {
+h1, h2, h3 {
 		font-size: 1.5em;
 	}
 
-	th, td {
-		padding: 8px;
-	}
+th, td {
+	padding: 8px;
+}
 
-	.section-title {
-		font-size: 1.5em;
-	}
+.section-title {
+	font-size: 1.5em;
+}
 
-	table {
-		font-size: 0.9em;
-	}
+table {
+	font-size: 0.9em;
+}
 
-	table, th, td {
-		display: block;
-		width: 100%;
-	}
+table, th, td {
+	display: block;
+	width: 100%;
+}
 
-	th {
-		background-color: transparent;
-		color: #e5c07b;
-	}
+th {
+	background-color: transparent;
+	color: #e5c07b;
+}
 
-	td {
-		border-top: none;
-		border-left: none;
-		border-right: none;
-	}
+td {
+	border-top: none;
+	border-left: none;
+	border-right: none;
+}
 }
 
 @media (max-width: 480px) {
-	h1, h2, h3 {
+h1, h2, h3 {
 		font-size: 1.25em;
 	}
 
-	.section-title {
+.section-title {
 		font-size: 1.25em;
 	}
 
-	table {
+table {
 		font-size: 0.8em;
 	}
 }

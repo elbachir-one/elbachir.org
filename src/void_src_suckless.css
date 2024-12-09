@@ -83,7 +83,6 @@ ul {
 	font-size: 18px;
 }
 
-/* Responsive Styles */
 @media (max-width: 768px) {
 	body {
 		padding: 10px;

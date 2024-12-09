@@ -5,6 +5,7 @@ body {
 	background-color: #1e1e1e;
 	color: #dcdcdc;
 	margin: 0;
+	margin-top: 100px;
 	padding: 0;
 }
 
@@ -24,9 +25,15 @@ h1, h2, h3 {
 }
 
 h1 {
-	font-size: 2em;
-	margin-bottom: 20px;
+	background-color: rgba(40, 40, 40, 0.6);
+	color: #569cd6;
+	padding: 20px;
 	text-align: center;
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	z-index: 1000;
 }
 
 h2 {
@@ -44,7 +51,7 @@ h3 {
 pre {
 	background-color: #1c1c1c;
 	border: 1px solid #3c3c3c;
-	border-radius: 3px;
+	border-radius: 4px;
 	padding: 10px;
 	overflow-x: auto;
 	color: #9cdcfe;
@@ -56,7 +63,7 @@ code {
 	background-color: #1c1c1c;
 	color: #ffffff;
 	padding: 2px 4px;
-	border-radius: 3px;
+	border-radius: 4px;
 }
 
 ul {
@@ -73,7 +80,7 @@ li {
 	border-left: 4px solid #569cd6;
 	padding: 10px;
 	margin: 15px 0;
-	border-radius: 3px;
+	border-radius: 4px;
 	font-style: italic;
 }
 
