@@ -34,6 +34,7 @@ pre {
 	font-size: 16px;
 	font-family: monospace;
 	overflow-x: auto;
+	border-radius: 4px;
 }
 
 p, ol, ul {
@@ -70,8 +71,8 @@ body {
 
 @media (min-width: 1024px) {
 	body {
-		margin-left: 200px;
-		margin-right: 200px;
+		margin-left: 80px;
+		margin-right: 80px;
 	}
 
 	h1 {
