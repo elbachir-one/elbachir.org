@@ -50,21 +50,17 @@ syspatch # Apply system patches
 
 #### 3. Install a Desktop Environment (DE) / Window Manager (WM) and enable services
 
-In this setup, we will install **XFCE4** and some useful extras:
+In this setup, we will install **OpenBox** and some useful extras:
 
 ```bash
-pkg_add xfce xfce-extras xfce4-power-manager chromium
+pkg_add openbox tint2 obconf obmenu noto-cjk noto-emoji noto-fonts sakura chromium p5-Gtk3 git gtar picom feh cmake curl py-gtk2
 ```
 
 Enable and start necessary daemons:
 
 ```bash
 rcctl enable apmd # Enable power daemon
-rcctl start apmd # Start power daemon
-
 rcctl enable messagebus # Enable dbus
-rcctl start messagebus # Start dbus
-
 rcctl enable xenodm # Enable xenodm
 ```
 

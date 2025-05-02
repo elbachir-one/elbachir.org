@@ -9,7 +9,7 @@ body {
 }
 
 .container {
-	max-width: 1200px;
+	max-width: 1350px;
 	background: #ffffff;
 	margin: 30px auto;
 	padding: 30px;
@@ -69,4 +69,23 @@ footer {
 	margin-top: 40px;
 	font-style: italic;
 	color: #a30400;
+}
+
+*, *::before, *::after {
+	box-sizing: border-box;
+}
+
+@media (max-width: 768px) {
+	.container {
+		padding: 15px;
+		margin: 10px;
+	}
+
+	body {
+		font-size: 16px;
+	}
+}
+
+pre:hover {
+	background-color: #e0e0e0;
 }

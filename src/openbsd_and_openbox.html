@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>OpenBSD Post-Installation Guide</title>
+		<link rel="stylesheet" href="openbsd_and_openbox.css">
+	</head>
+	<body>
+		<div class="container">
+			<h1>OpenBSD</h1>
+			<h2>Things to do after installing OpenBSD</h2>
+			<hr>
+
+			<h3>1. Set up user permissions</h3>
+			<p>Login as <code>root</code> to configure <code>doas</code> for other users.<br>First, install a text editor:</p>
+			<pre><code>pkg_add vim</code></pre>
+
+			<pre><code>usermod -G operator &lt;user name&gt;
+usermod -G wheel &lt;user name&gt; # To use doas</code></pre>
+
+			<p>Edit the <code>doas</code> configuration file:</p>
+			<pre><code>vim /etc/doas.conf</code></pre>
+
+			<p>Add the following line:</p>
+			<pre><code>permit persist :wheel</code></pre>
+
+			<p>If you don't want to type your password every time when using <code>doas</code>, you can instead use:</p>
+			<pre><code>permit nopass :wheel</code></pre>
+
+			<hr>
+
+			<h3>2. Update firmware and OpenBSD base system</h3>
+			<pre><code>fw_update # To install missing driver
+syspatch # Apply system patches</code></pre>
+
+			<hr>
+
+			<h3>3. Install a Desktop Environment (DE) / Window Manager (WM) and enable services in this case <strong>OpenBox</strong></h3>
+			<p>In this setup, we will install <strong>OpenBox</strong> and some useful extras:</p>
+			<pre><code>pkg_add openbox tint2 chromium sakura git noto-cjk noto-emoji picom feh</code></pre>
+
+			<p>Enable and start necessary daemons:</p>
+			<pre><code>rcctl enable apmd
+rcctl enable messagebus
+rcctl enable xenodm</code></pre>
+
+			<p>Exit the <code>root</code> user and longin as your user:</p>
+			<p>Create or edit your <code>.xsession</code> file in your home directory:</p>
+			<pre><code>vim ~/.xsession</code></pre>
+
+			<p>Add the following line to start OpenBox:</p>
+			<pre><code>picom &
+tint2 &
+sakura &
+feh --bg-fill somewallpaper &
+exec openbox</code></pre>
+
+			<p>Finally, reboot:</p>
+			<pre><code>doas shutdown -r now</code></pre>
+
+			<hr>
+
+			<h3>4. How to install obmenu-generator</h3>
+
+			<div class="note">
+				<strong>NOTE:</strong> The package <code>obmenu-generator</code> is not available in OpenBSD's package repositories, so you will need to install it from source.
+			</div>
+			<ol>
+				<li>To build it, we need to install some dependencies.</li>
+				<pre><code>doas pkg_add py-gtk2 cmake curl gtar p5-Gtk3</code></pre>
+				<li>Installing <code>cpanm</code>.</li>
+				<pre><code>cd /usr/local/bin/
+doas curl -L https://cpanmin.us/ -o cpanm
+doas chmod +x cpanm</code></pre>
+				<li>Create a folder in <code>~/.config/</code> name it <code>obmenu-genrator</code>.</li>
+				<pre><code>mkdir -p ~/.config/obmenu-generator</code></pre>
+				<li>Clone <code>obmenu-generator</code>.</li>
+				<pre><code>git clone --depth=1 https://github.com/trizen/obmenu-generator
+cp -r obmenu-generator/schema.pl ~/.config/obmenu-generator/
+doas cp obmenu-generator/obmenu-generator /usr/local/bin/
+doas chmod +x /usr/local/bin/obmenu-generator</code></pre>
+				<li>Running <code>cpanm</code>.</li>
+				<pre><code>doas cpanm Linux::DesktopFiles
+doas cpanm Data::Dump
+doas cpanm File::DesktopEntry</code></pre>
+				<li>Running <code>obmenu-generator</code> with <code>-p</code> and <code>-i</code> to have a menu with icons.</li>
+				<pre><code>obmenu-generator -p -i</code></pre>
+				</ol>
+
+			<hr>
+
+			<h3>5. How to Remove the <code>xconsole</code> Window After Login</h3>
+
+				<div class="note">
+					<strong>NOTE:</strong> After you log in, a small window may pop up with <code>xenodm</code>. That is the <code>xconsole</code>.
+				</div>
+
+				<p>To get rid of it, follow these steps:</p>
+				<ol>
+					<li>Open the file <code>/etc/X11/xenodm/Xsetup_0</code> with <code>vim</code> (using <code>doas</code> for permission):</li>
+					<pre><code>doas vim /etc/X11/xenodm/Xsetup_0</code></pre>
+					<li>Find the line that mentions <code>xconsole</code>.</li>
+					<li>Comment out that line by adding a <code>#</code> at the beginning.</li>
+					<li>Save the file and exit <code>vim</code>.</li>
+					<li>Reboot your system:</li>
+					<pre><code>doas shutdown -r now</code></pre>
+				</ol>
+
+				<p>After rebooting, the <code>xconsole</code> window will no longer appear.</p>
+
+				<hr>
+
+				<footer>
+					<p>Et voilà!</p>
+				</footer>
+
+		</div>
+	</body>
+</html>
