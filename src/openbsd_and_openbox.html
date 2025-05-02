@@ -36,7 +36,7 @@ syspatch # Apply system patches</code></pre>
 
 			<hr>
 
-			<h3>3. Install a Desktop Environment (DE) / Window Manager (WM) and enable services in this case <strong>OpenBox</strong></h3>
+			<h3>3. Install a Desktop Environment (DE) / Window Manager (WM) and enable services</h3>
 			<p>In this setup, we will install <strong>OpenBox</strong> and some useful extras:</p>
 			<pre><code>pkg_add openbox tint2 chromium sakura git noto-cjk noto-emoji picom feh</code></pre>
 
@@ -77,7 +77,7 @@ doas chmod +x cpanm</code></pre>
 				<pre><code>mkdir -p ~/.config/obmenu-generator</code></pre>
 				<li>Clone <code>obmenu-generator</code>.</li>
 				<pre><code>git clone --depth=1 https://github.com/trizen/obmenu-generator
-cp -r obmenu-generator/schema.pl ~/.config/obmenu-generator/
+cp obmenu-generator/schema.pl ~/.config/obmenu-generator/
 doas cp obmenu-generator/obmenu-generator /usr/local/bin/
 doas chmod +x /usr/local/bin/obmenu-generator</code></pre>
 				<li>Running <code>cpanm</code>.</li>
