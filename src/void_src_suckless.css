@@ -1,14 +1,14 @@
 body {
 	font-family: Arial, sans-serif;
 	background-color: #aecedb;
-	color: #333;
+	color: #000;
 	line-height: 1.6;
 	padding: 20px;
 	font-size: 18px;
 }
 
 h1, h2, h3 {
-	color: #000;
+	color: #0055ff;
 }
 
 h1 {
