@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Booting Void Linux via EFI Stub</title>
+		<link rel="stylesheet" href="efi_stubs.css" />
+	</head>
+	<body>
+		<h1 class="title">Booting Void Linux Directly via EFI Stub (No GRUB)</h1>
+		<p>This guide shows how to configure your Void Linux system to boot directly using the <strong>EFI stub</strong>, bypassing GRUB. This can lead to faster, simpler booting, especially on UEFI systems.</p>
+		<hr />
+
+		<h2>📋 Prerequisites</h2>
+		<ul>
+			<li>UEFI firmware (not legacy BIOS)</li>
+			<li>Linux kernel with EFI stub support (<code>CONFIG_EFI_STUB=y</code>)</li>
+			<li>Access to the EFI System Partition (ESP), usually mounted at <code>/boot/efi</code></li>
+			<li><code>efibootmgr</code> installed (for managing UEFI boot entries)</li>
+		</ul>
+
+		<h2>📁 Step 1: Verify Kernel EFI Stub Support</h2>
+		<p>Run:</p>
+		<pre><code>grep EFI_STUB /boot/config-$(uname -r)</code></pre>
+		<p>Output should include:</p>
+		<pre><code>CONFIG_EFI_STUB=y</code></pre>
+
+		<h2>📂 Step 2: Prepare Kernel and Initramfs</h2>
+		<p>Copy the kernel and initramfs to the EFI System Partition:</p>
+		<pre><code>sudo mkdir -p /boot/efi/EFI/Linux</code>
+<code>sudo cp /boot/vmlinuz-$(uname -r) /boot/efi/EFI/Linux/</code>
+<code>sudo cp /boot/initramfs-$(uname -r).img /boot/efi/EFI/Linux/</code></pre>
+		<blockquote>If your initramfs has a different name (e.g., <code>initrd.img-*</code>), use that instead.</blockquote>
+
+		<h2>📂 Step 3: Create a UEFI Boot Entry</h2>
+		<p>Use <code>efibootmgr</code> to create a boot entry pointing directly to your kernel:</p>
+		<pre><code>sudo efibootmgr -c \
+  -d /dev/sdX \
+  -p Y \
+  -L "Linux EFI Stub" \
+  -l '\EFI\Linux\vmlinuz-&lt;version&gt;' \
+  -u "initrd=\EFI\Linux\initramfs-&lt;version&gt;.img root=/dev/sdZZ ro quiet splash"</code></pre>
+		<p>Replace:</p>
+		<ul>
+			<li><code>/dev/sdX</code> → disk containing the EFI partition (e.g., <code>/dev/sda</code>)</li>
+			<li><code>Y</code> → EFI partition number (usually 1)</li>
+			<li><code>&lt;version&gt;</code> → kernel version (e.g., <code>6.1.130_1</code>)</li>
+			<li><code>/dev/sdZZ</code> → your root partition (e.g., <code>/dev/sda2</code>)</li>
+		</ul>
+		<p>Check your root partition with:</p>
+		<pre><code>lsblk</code></pre>
+
+		<h2>🔀 Step 4: Reboot and Test</h2>
+		<p>After rebooting, your system should boot directly into Linux using the EFI stub.</p>
+		<p>Check with:</p>
+		<pre><code>dmesg | grep EFI</code></pre>
+
+		<h2>🧹 (Optional) Remove GRUB</h2>
+		<p>Once EFI stub boot is confirmed working, you can optionally remove GRUB:</p>
+		<pre><code>sudo xbps-remove -R grub-x86_64-efi grub-i386-efi grub</code></pre>
+		<blockquote>⚠️ If <code>efibootmgr</code> gets removed, reinstall it.</blockquote>
+		<p>And remove its files from the ESP:</p>
+		<pre><code>sudo rm -rf /boot/efi/EFI/void_grub</code></pre>
+		<blockquote>⚠️ Only do this once you're sure the new boot method works.</blockquote>
+
+		<h2>🔧 Notes</h2>
+		<ul>
+			<li>You must manually update the EFI stub entry if your kernel/initramfs changes.</li>
+			<li>You can create multiple entries with different kernels if needed.</li>
+			<li>No GRUB menu means no easy kernel selection or recovery options unless you set them up manually.</li>
+		</ul>
+
+		<h2>📚 References</h2>
+		<ul>
+			<li><a href="https://www.kernel.org/doc/html/latest/" target="_blank">Linux Kernel Documentation</a></li>
+			<li><code>man efibootmgr</code></li>
+		</ul>
+	</body>
+</html>
