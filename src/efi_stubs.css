@@ -7,6 +7,15 @@ body {
 	line-height: 1.7;
 }
 
+.container {
+	max-width: 1300px;
+	margin: 30px auto;
+	padding: 30px;
+	border-radius: 10px;
+	box-shadow: 0 20px 40px rgba(0, 0, 0, 0.8);
+	border: 2px solid #a30400;
+}
+
 .title {
 	text-align: center;
 }
