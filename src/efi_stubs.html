@@ -15,6 +15,7 @@
 			<h2>📋 Prerequisites</h2>
 			<ul>
 				<li>UEFI firmware (not legacy BIOS)</li>
+				<li>Check for UEFI with (<code>[ -d /sys/firmware/efi ] && echo "UEFI mode" || echo "Legacy BIOS mode"</code>)</li>
 				<li>Linux kernel with EFI stub support (<code>CONFIG_EFI_STUB=y</code>)</li>
 				<li>Access to the EFI System Partition (ESP), usually mounted at <code>/boot/efi</code></li>
 				<li><code>efibootmgr</code> installed (for managing UEFI boot entries)</li>
