@@ -11,7 +11,7 @@
 			<h1>🐧 Moving from Debian to Void Linux — Notes & Tips</h1>
 
 			<section>
-				<h2>1. runit and services</h2>
+				<h2>1. Runit and services</h2>
 				<ul>
 					<li>Void Linux uses <code>runit</code> instead of systemd.</li>
 					<li>Installing a package that provides a service adds its runit service directory to <code>/etc/sv/servicename/</code>.</li>
@@ -113,11 +113,11 @@ tar -xf data.tar.xz</code></pre>
 						</tr>
 					</thead>
 					<tbody>
-						<tr><td>Installing pkgs</td><td><code>apt install</code></td><td><code>xbps-install</code></td></tr>
+						<tr><td>Installing pkgs</td><td><code>apt install pkgname</code></td><td><code>xbps-install pkgname</code></td></tr>
 						<tr><td>Update repo</td><td><code>apt update</code></td><td><code>xbps-install -S</code></td></tr>
 						<tr><td>Upgrade all packages</td><td><code>apt upgrade</code></td><td><code>xbps-install -u</code></td></tr>
 						<tr><td>Upgrade & install updates</td><td><code>apt full-upgrade</code></td><td><code>xbps-install -Su</code></td></tr>
-						<tr><td>Remove pkg + deps</td><td><code>apt autoremove pkg</code></td><td><code>xbps-remove -R pkg</code></td></tr>
+						<tr><td>Remove pkg + deps</td><td><code>apt autoremove pkgname</code></td><td><code>xbps-remove -R pkgname</code></td></tr>
 						<tr><td>Remove orphaned pkgs</td><td><code>apt autoremove</code></td><td><code>xbps-remove -o </code> And also to clean the cache <code>xbps-remove -O</code></td></tr>
 						<tr><td>Exclude pkg on install</td><td><code>apt install foo -bar</code></td><td>No direct equivalent; hold with: <code>xbps-pkgdb -m hold bar</code></td></tr>
 					</tbody>
@@ -143,6 +143,13 @@ tar -xf data.tar.xz</code></pre>
 				<blockquote>
 					🐧 Enjoy Void Linux — it’s lightweight, rolling, and fun to tinker with!
 				</blockquote>
+			</section>
+			<hr>
+
+			<section>
+				<p>
+				<strong><em>Et voilà</em></strong>
+				</p>
 			</section>
 		</div>
 	</body>
