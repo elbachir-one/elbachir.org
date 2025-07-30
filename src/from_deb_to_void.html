@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>🐧 Moving from Debian to Void Linux — Notes & Tips</title>
+		<link rel="stylesheet" href="from_deb_to_void.css">
+	</head>
+	<body>
+		<div class="container">
+			<h1>🐧 Moving from Debian to Void Linux — Notes & Tips</h1>
+
+			<section>
+				<h2>1. runit and services</h2>
+				<ul>
+					<li>Void Linux uses <code>runit</code> instead of systemd.</li>
+					<li>Installing a package that provides a service adds its runit service directory to <code>/etc/sv/servicename/</code>.</li>
+					<li>Services <strong>aren’t enabled automatically</strong>. To enable at boot:</li>
+				</ul>
+				<pre><code>ln -s /etc/sv/servicename /var/service/</code></pre>
+				<p>Start it immediately:</p>
+				<pre><code>sv up servicename</code></pre>
+				<p>To see what's available:</p>
+				<pre><code>ls /etc/sv/</code></pre>
+				<p>Useful docs: <a href="https://docs.voidlinux.org/config/services/index.html">Void Wiki - Services</a></p>
+			</section>
+
+			<hr>
+
+			<section>
+				<h2>2. Installing apps not in the repos</h2>
+				<ul>
+					<li>Void can't use <code>.deb</code> files directly.</li>
+					<li>Options:</li>
+					<ul>
+						<li>Find Flatpak / AppImage / Snap version.</li>
+						<li>Build from source.</li>
+						<li>Write an <code>xbps-src</code> template (Void's packaging system).</li>
+						<li><strong>Manual hack</strong>: extract contents:</li>
+					</ul>
+				</ul>
+				<pre><code>ar x package.deb
+tar -xf data.tar.xz</code></pre>
+				<p>Then manually copy, but this is fragile.</p>
+			</section>
+
+			<hr>
+
+			<section>
+				<h2>3. Hardening the system</h2>
+				<p>No official Void hardening manual, but you can adapt: <a href="https://wiki.archlinux.org/title/Security">Arch Wiki - Security</a></p>
+				<ul>
+					<li>Enable firewall (<code>iptables-nft</code> or <code>ufw</code>).</li>
+					<li>Disable SSH password login.</li>
+					<li>Keep system updated:</li>
+				</ul>
+				<pre><code>xbps-install -Su</code></pre>
+				<li>Consider a hardened kernel (advanced).</li>
+				<p>Void Wiki: <a href="https://docs.voidlinux.org/config/security/index.html">Security</a></p>
+			</section>
+
+			<hr>
+
+			<section>
+				<h2>4. Restricting app permissions</h2>
+				<ul>
+					<li>Continue using Flatpak + Flatseal (supported on Void).</li>
+					<li>For non-Flatpak apps:</li>
+					<ul>
+						<li>Use <a href="https://firejail.wordpress.com/">Firejail</a>:</li>
+					</ul>
+				</ul>
+				<pre><code>firejail --net=none myapp</code></pre>
+				<p>AppArmor / SELinux possible but require extra setup on Void.</p>
+			</section>
+
+			<hr>
+
+			<section>
+				<h2>5. Encrypting <code>/home</code></h2>
+				<p>Void installer doesn’t have a GUI option.</p>
+				<ul>
+					<li>Options:</li>
+					<ul>
+						<li>Full disk encryption with LUKS (recommended).</li>
+						<li>Encrypt only <code>/home</code>:
+							<ul>
+								<li><code>ecryptfs</code> (older).</li>
+								<li><code>fscrypt</code> (newer, for ext4/f2fs).</li>
+							</ul>
+						</li>
+					</ul>
+				</ul>
+				<p>Manual setup:</p>
+				<ul>
+					<li>Partition disk.</li>
+					<li>Create LUKS container.</li>
+					<li>Mount and install Void onto it.</li>
+				</ul>
+				<p>Guide: <a href="https://docs.voidlinux.org/installation/guides/full-disk-encryption.html">Void Linux Full Disk Encryption</a></p>
+			</section>
+
+			<hr>
+
+			<section>
+				<h2>6. xbps vs apt quick reference</h2>
+				<table>
+					<thead>
+						<tr>
+							<th>Task</th>
+							<th>Debian/apt</th>
+							<th>Void/xbps</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr><td>Installing pkgs</td><td><code>apt install</code></td><td><code>xbps-install</code></td></tr>
+						<tr><td>Update repo</td><td><code>apt update</code></td><td><code>xbps-install -S</code></td></tr>
+						<tr><td>Upgrade all packages</td><td><code>apt upgrade</code></td><td><code>xbps-install -u</code></td></tr>
+						<tr><td>Upgrade & install updates</td><td><code>apt full-upgrade</code></td><td><code>xbps-install -Su</code></td></tr>
+						<tr><td>Remove pkg + deps</td><td><code>apt autoremove pkg</code></td><td><code>xbps-remove -R pkg</code></td></tr>
+						<tr><td>Remove orphaned pkgs</td><td><code>apt autoremove</code></td><td><code>xbps-remove -o </code> And also to clean the cache <code>xbps-remove -O</code></td></tr>
+						<tr><td>Exclude pkg on install</td><td><code>apt install foo -bar</code></td><td>No direct equivalent; hold with: <code>xbps-pkgdb -m hold bar</code></td></tr>
+					</tbody>
+				</table>
+			</section>
+			<p>Guide: <a href="https://docs.voidlinux.org/xbps/index.html">Void Linux package manager XBPS</a></p>
+			<hr>
+
+			<section>
+				<h2>Extras & recommendations</h2>
+				<ul>
+					<li>Read the <a href="https://docs.voidlinux.org/">Void Handbook</a></li>
+					<li>Check <a href="https://github.com/void-linux/void-packages">void-packages</a> if you want to package your own software.</li>
+					<li>Consider writing a migration checklist:
+						<ul>
+							<li>List of services you use.</li>
+							<li>Installed packages.</li>
+							<li>Dotfiles and configs.</li>
+						</ul>
+					</li>
+					<li>Use <code>flatpak</code> and <code>firejail</code> together for best app sandboxing coverage.</li>
+				</ul>
+				<blockquote>
+					🐧 Enjoy Void Linux — it’s lightweight, rolling, and fun to tinker with!
+				</blockquote>
+			</section>
+		</div>
+	</body>
+</html>
