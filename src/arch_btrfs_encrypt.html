@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<title>Installing Arch Linux on a USB (Btrfs + LUKS2)</title>
+		<link rel="stylesheet" href="arch_btrfs_encrypt.css">
+	</head>
+	<body>
+		<header>
+			<h1 class="title">Installing Arch Linux on a USB Drive <span style="color:var(--accent)">·</span> Btrfs + LUKS2</h1>
+			<p class="subtitle">A concise, step‑by‑step guide to create a portable, encrypted Arch Linux on a USB drive.</p>
+			<div class="badge">
+				<span>Target: USB drive</span>
+				<span>FS: Btrfs</span>
+				<span>Encryption: LUKS2</span>
+				<span>Boot: UEFI + BIOS</span>
+			</div>
+		</header>
+
+		<nav class="toc" aria-label="Table of contents">
+			<div class="toc-inner">
+				<h2>Contents</h2>
+				<ol>
+					<li><a href="#iso">Download & verify ISO</a></li>
+					<li><a href="#live-usb">Create installer USB</a></li>
+					<li><a href="#connect-wifi">Connect to the Internet</a></li>
+					<li><a href="#partition">Partition target USB</a></li>
+					<li><a href="#fs">Create filesystems & LUKS</a></li>
+					<li><a href="#btrfs">Create Btrfs subvolumes</a></li>
+					<li><a href="#install">Install base system</a></li>
+					<li><a href="#fstab">Generate fstab</a></li>
+					<li><a href="#config">System configuration</a></li>
+					<li><a href="#grub">GRUB + encryption</a></li>
+					<li><a href="#initramfs">mkinitcpio</a></li>
+					<li><a href="#grub-install">Install GRUB</a></li>
+					<li><a href="#network">Networking</a></li>
+					<li><a href="#desktop">Desktop environment</a></li>
+					<li><a href="#finish">Finish</a></li>
+				</ol>
+			</div>
+		</nav>
+
+		<main>
+			<section id="iso">
+				<h2>1 - Download & verify ISO</h2>
+				<p>Download the latest ISO from <a href="https://archlinux.org/">archlinux.org</a>. Verify it with the official checksum.</p>
+
+				<div class="codeblock">
+					<pre><code>sha256sum archlinux-2025.05.01-x86_64.iso</code></pre>
+				</div>
+				<p class="ok"><strong>Tip:</strong> Ensure the hash matches the one published on the website.</p>
+			</section>
+
+			<section id="live-usb">
+				<h2>2 - Create installer USB</h2>
+				<p>On Linux, find your device with <code>lsblk</code> and write the ISO with <code>dd</code>. On Windows, use Rufus.</p>
+				<div class="grid cols-2">
+					<div class="card">
+						<p><strong>Linux</strong></p>
+						<div class="codeblock">
+							<pre><code>lsblk</code></pre>
+							<pre><code>sudo dd if=archlinux-2025.05.01-x86_64.iso of=/dev/sdX status=progress bs=4M conv=fsync</code></pre>
+						</div>
+						<p class="warn">Replace <code>/dev/sdX</code> with your installer USB device.</p>
+						<p class="red"><strong>Warning:</strong> Make sure that your USB drives do not contain any important data.</p>
+					</div>
+					<div class="card">
+						<p><strong>Windows</strong></p>
+						<p>Use <a href="https://rufus.ie">Rufus</a> to write the ISO to your USB drive.</p>
+					</div>
+				</div>
+			</section>
+
+			<section id="connect-wifi">
+				<h2>3 - Connect to the Internet</h2>
+				<p>Now plug in both USBs — the media installer and the USB drive where we’ll install Arch Linux.</p>
+				<p class="warn">This next step is only necessary if you are using a <strong>Wi-Fi connection</strong>. If you are using <strong>Ethernet</strong>, you can skip it.</p>
+				<p>Let’s connect to the internet using <code>iwctl</code>:</p>
+				<ol>
+					<li>Detect any Wi-Fi adapters:</li>
+					<div class="codeblock">
+						<pre><code>iwctl device list</code></pre>
+					</div>
+					<p>You should see a wireless interface (e.g., <code>wlan0</code> or similar).</p>
+
+					<li>Scan for nearby networks:</li>
+					<div class="codeblock">
+						<pre><code>iwctl station wlan0 scan</code></pre>
+					</div>
+
+					<li>List available networks:</li>
+					<div class="codeblock">
+						<pre><code>iwctl station wlan0 get-networks</code></pre>
+					</div>
+
+					<li>Connect to your Wi-Fi:</li>
+					<div class="codeblock">
+						<pre><code>iwctl station wlan0 connect SSID</code></pre>
+					</div>
+					<p>Replace <code>SSID</code> with your Wi-Fi network name, press <kbd>ENTER</kbd>, and type your passphrase.</p>
+
+					<li>Test your connection:</li>
+					<div class="codeblock">
+						<pre><code>ping -c3 archlinux.org</code></pre>
+					</div>
+				</ol>
+			</section>
+
+			<section id="partition">
+				<h2>4 - Partition target USB</h2>
+				<p>Create three partitions on the <em>target</em> USB:</p>
+				<table>
+					<thead>
+						<tr><th>#</th><th>Purpose</th><th>Size</th><th>Type / FS</th><th>Mount</th></tr>
+					</thead>
+					<tbody>
+						<tr><td>1</td><td>BIOS boot</td><td>128&nbsp;MiB</td><td>ext2</td><td>—</td></tr>
+						<tr><td>2</td><td>UEFI system</td><td>512&nbsp;MiB</td><td>vfat (FAT32)</td><td>/boot</td></tr>
+						<tr><td>3</td><td>Root</td><td>Rest</td><td>LUKS2 → Btrfs</td><td>/</td></tr>
+					</tbody>
+				</table>
+				<div class="codeblock">
+					<pre><code>cfdisk /dev/sdY</code></pre>
+				</div>
+				<p class="red"><strong>Warning:</strong> Double‑check the target device (e.g. <code>/dev/sdY</code>) with <code>lsblk</code> to avoid wiping the wrong disk.</p>
+			</section>
+
+			<section id="fs">
+				<h2>5 - Create Filesystems & Setup LUKS Encryption</h2>
+				<p>Now that the partitions are ready, we need to format them with appropriate filesystems and optionally set up encryption for sensitive data.</p>
+
+				<div class="codeblock">
+					<pre><code>mkfs.ext2 /dev/sdY1</code><p class="note">Formats the first partition (<code>/dev/sdY1</code>) with the EXT2 filesystem.</p></pre>
+
+					<pre><code>mkfs.vfat -F32 /dev/sdY2</code><p class="note">Formats the second partition (<code>/dev/sdY2</code>) as FAT32. This is typically used for EFI System Partitions.</p></pre>
+
+					<pre><code>cryptsetup luksFormat --type luks2 /dev/sdY3</code><p class="note">Initializes LUKS2 encryption on the third partition (<code>/dev/sdY3</code>).
+Type <kbd>YES</kbd> in uppercase to confirm, then type a strong passphrase.</p></pre>
+
+					<pre><code>cryptsetup luksOpen /dev/sdY3 cryptroot</code><p class="note">Opens the LUKS-encrypted partition and maps it to <code>/dev/mapper/cryptroot</code>.
+To interact with the partition as if it were unencrypted.</p></pre>
+
+					<pre><code>mkfs.btrfs /dev/mapper/cryptroot</code><p class="note">Formats the decrypted partition with the Btrfs filesystem.</p></pre>
+				</div>
+			</section>
+
+			<section id="btrfs">
+				<h2>6 - Create Btrfs Subvolumes</h2>
+				<p>Next, we set up Btrfs subvolumes to separate the root filesystem and user data and mount the filesystem.</p>
+
+				<div class="codeblock">
+					<pre><code>mount /dev/mapper/cryptroot /mnt</code>
+<p class="note">Mounts the decrypted Btrfs partition to <code>/mnt</code> temporarily so we can create subvolumes.</p></pre>
+
+					<pre><code>btrfs subvolume create /mnt/@</code>
+<p class="note">Creates the root subvolume <code>@</code>. This will hold the main system files.</p></pre>
+
+					<pre><code>btrfs subvolume create /mnt/@home</code>
+<p class="note">Creates the home subvolume <code>@home</code> for user data. Keeping it separate makes snapshots safer and easier.</p></pre>
+
+					<pre><code>umount /mnt</code>
+<p class="note">Unmounts the partition to remount it with the subvolumes as the active filesystem roots.</p></pre>
+
+					<pre><code>mount -o relatime,compress=zstd:3,subvol=@ /dev/mapper/cryptroot /mnt</code>
+<p class="note">Remounts the root subvolume <code>@</code> with options:
+<code>relatime</code> for efficient access times and <code>compress=zstd:3</code> for transparent compression.</p></pre>
+
+					<pre><code>mkdir -vp /mnt/{boot,home}</code>
+<p class="note">Creates the <code>/boot</code> and <code>/home</code> directories inside <code>/mnt</code> to mount the corresponding partitions or subvolumes.</p></pre>
+
+					<pre><code>mount -o relatime,compress=zstd:3,subvol=@home /dev/mapper/cryptroot /mnt/home</code>
+<p class="note">Mounts the <code>@home</code> subvolume at <code>/mnt/home</code> with the same options as the root subvolume.</p></pre>
+
+					<pre><code>mount /dev/sdY2 /mnt/boot</code>
+<p class="note">Mounts the EFI system partition at <code>/mnt/boot</code>.</p></pre>
+
+					<pre><code>lsblk -pf /dev/sdY</code>
+<p class="note">Lists the partitions, filesystems, and mount points to verify everything is set up correctly.</p></pre>
+				</div>
+			</section>
+
+			<section id="install">
+				<h2>7 - Install Base System</h2>
+				<div class="codeblock">
+					<pre><code>pacstrap -K /mnt linux-lts linux-firmware linux-lts-headers base base-devel nano \
+		 btrfs-progs networkmanager grub efibootmgr dosfstools os-prober mtools \
+		 bash-completion iwd usbutils intel-ucode amd-ucode</code></pre>
+					<hr>
+					<ul>
+						<li><strong>linux-lts</strong> – Long-Term Support kernel, stable and maintained for longer periods.</li>
+						<li><strong>linux-firmware</strong> – Firmware files for various hardware devices.</li>
+						<li><strong>linux-lts-headers</strong> – Kernel headers for building modules against the LTS kernel.</li>
+						<li><strong>base</strong> – Essential packages for a minimal Arch Linux system.</li>
+						<li><strong>base-devel</strong> – Development tools for compiling software (make, gcc, etc.).</li>
+						<li><strong>nano</strong> – Simple terminal text editor.</li>
+						<li><strong>btrfs-progs</strong> – Tools for managing Btrfs filesystems.</li>
+						<li><strong>networkmanager</strong> – Network management daemon and CLI tools.</li>
+						<li><strong>grub</strong> – Bootloader to start the OS.</li>
+						<li><strong>efibootmgr</strong> – EFI boot manager to configure UEFI boot entries.</li>
+						<li><strong>dosfstools</strong> – Tools for creating and checking FAT filesystems.</li>
+						<li><strong>os-prober</strong> – Detects other OS installations for bootloader configuration.</li>
+						<li><strong>mtools</strong> – Utilities to access FAT filesystems without mounting them.</li>
+						<li><strong>bash-completion</strong> – Bash completions for core commands.</li>
+						<li><strong>iwd</strong> – Wireless daemon for managing Wi-Fi connections.</li>
+						<li><strong>usbutils</strong> – Utilities to list and query USB devices.</li>
+						<li><strong>intel-ucode</strong> – Microcode updates for Intel CPUs.</li>
+						<li><strong>amd-ucode</strong> – Microcode updates for AMD CPUs.</li>
+					</ul>
+				</div>
+			</section>
+
+			<section id="fstab">
+				<h2>8 - Generate fstab</h2>
+				<div class="codeblock">
+					<pre><code>genfstab -U /mnt &gt; /mnt/etc/fstab</code></pre>
+					<p class="note"><strong>genfstab</strong> – Generates the <code>fstab</code> file using UUIDs (-U) for all mounted partitions under <code>/mnt</code>, and writes it to <code>/mnt/etc/fstab</code>. This file tells the system which partitions to mount at boot.</p>
+				</div>
+			</section>
+
+			<section id="config">
+				<h2>9 - System Configuration</h2>
+				<div class="codeblock">
+					<pre><code>arch-chroot /mnt</code>
+<p class="note">Enters the new system environment at <code>/mnt</code>, so all following commands affect the installed system,
+not the live USB.</p></pre>
+
+					<pre><code>echo "zombie" &gt; /etc/hostname</code>
+<p class="note">Sets the system name to <code>zombie</code>, Change it to your own hostname, which identifies your computer on networks.</p></pre>
+
+					<pre><code>ln -sf /usr/share/zoneinfo/Japan/Tokyo /etc/localtime</code>
+<p class="note">Links your local timezone file to <code>/etc/localtime</code> for correct system time. Set it to your own localtime</p></pre>
+
+					<pre><code>hwclock --systohc</code>
+<p class="note"><strong>hwclock</strong> – Writes the system time to the hardware clock so it stays accurate after reboots.</p></pre>
+
+					<pre><code>echo "en_US.UTF-8 UTF-8" | tee -a /etc/locale.gen</code>
+<p class="note">Enables the <code>en_US.UTF-8</code> locale for system-wide use.</p></pre>
+
+					<pre><code>locale-gen</code>
+<p class="note"><strong>locale-gen</strong> – Generates the locale files specified in <code>/etc/locale.gen</code>.</p></pre>
+
+					<pre><code>echo "LANG=en_US.UTF-8" &gt; /etc/locale.conf</code>
+<p class="note">Sets the default system language environment variable.</p></pre>
+
+					<pre><code>echo "KEYMAP=us" &gt; /etc/vconsole.conf</code>
+<p class="note">Add your own keymap.</p></pre>
+
+					<pre><code>passwd</code>
+<p class="note">Prompts to set a strong password for the root account.</p></pre>
+
+					<pre><code>auser=yourusername</code>
+<p class="note">Defines the username you will create.</p></pre>
+
+					<pre><code>useradd -mG wheel "$auser"</code>
+<p class="note">Creates the user with a home directory and adds them to the <code>wheel</code> group for administrative privileges.</p></pre>
+
+					<pre><code>passwd "$auser"</code>
+<p class="note">Sets the password for your new user account.</p></pre>
+
+					<pre><code>EDITOR=nano visudo</code>
+<p class="note">Edits the <code>sudoers</code> file safely. This allows users in the <code>wheel</code> group to use <code>sudo</code> for administrative tasks.
+Uncomment the line at the bottom of the file by removing the <strong>#</strong> from: <strong>%wheel ALL=(ALL) ALL</strong></p></pre>
+				</div>
+			</section>
+
+			<section id="grub">
+				<h2>10 - GRUB + Encryption</h2>
+				<div class="codeblock">
+					<pre><code>nano /etc/default/grub</code>
+<p class="note"><strong>nano</strong> – Opens the GRUB configuration file for editing. This file controls bootloader settings and kernel parameters.</p></pre>
+
+					<pre><code>GRUB_ENABLE_CRYPTODISK=y     # Uncomment the line by removing the hashtag (#), then save and exit the file</code>
+<p class="note">This enables GRUB to recognize LUKS-encrypted partitions at boot, allowing you to enter the passphrase early.</p></pre>
+
+					<pre><code>cryptsetup luksUUID /dev/sdY3</code>
+<p class="note">Outputs the unique identifier of your LUKS encrypted partition. It tells GRUB which partition to unlock.</p></pre>
+
+					<pre><code>UUID=$(cryptsetup luksUUID /dev/sdY3)
+sed -i "s|^GRUB_CMDLINE_LINUX=.*|GRUB_CMDLINE_LINUX=\"cryptdevice=UUID=$UUID:root rootfstype=btrfs\"|" /etc/default/grub
+</code>
+<p class="note">This two-line command retrieves the LUKS UUID automatically and updates the GRUB configuration safely, avoiding
+manual copy/paste.</p></pre>
+				</div>
+				<p class="warn"><strong>Warning:</strong> A single wrong character can make the system unbootable. Double‑check the UUID and syntax before updating GRUB.</p>
+			</section>
+
+			<section id="initramfs">
+				<h2>11 - mkinitcpio</h2>
+				<div class="codeblock">
+					<pre><code>nano /etc/mkinitcpio.conf</code>
+<p class="note"><strong>nano</strong> – Opens the configuration file where you define which modules and hooks are included in the initramfs.</p></pre>
+
+					<pre><code>MODULES=(btrfs usb_storage usbhid xhci_pci ehci_pci)</code>
+<p class="note">Here, Btrfs support, USB storage, USB keyboard, and USB controllers are included for proper hardware initialization.</p></pre>
+
+					<pre><code>HOOKS=(base udev keyboard autodetect microcode modconf kms keymap consolefont block encrypt filesystems fsck)</code>
+<p class="note"><strong>HOOKS</strong> – Define the sequence of operations during boot. Important points:
+- <code>keyboard</code> before <code>autodetect</code> ensures the keyboard works for password entry.
+- <code>encrypt</code> before <code>filesystems</code> ensures encrypted volumes are unlocked before mounting.</p></pre>
+
+					<pre><code>mkinitcpio -P</code>
+<p class="note">Rebuilds all preset initramfs images using the updated configuration, so the system boots
+with proper modules and hooks.</p></pre>
+				</div>
+			</section>
+
+			<section id="grub-install">
+				<h2>12 - Install GRUB</h2>
+
+				<p><strong>UEFI</strong></p>
+				<div class="codeblock">
+					<pre><code>grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=GRUB --removable --recheck</code>
+<p class="note"><strong>grub-install</strong> – Installs GRUB for UEFI systems.
+- <code>--efi-directory=/boot</code> specifies the EFI system partition.
+- <code>--bootloader-id=GRUB</code> names the boot entry.
+- <code>--removable</code> makes it bootable on removable media.
+- <code>--recheck</code> ensures device detection is refreshed.</p></pre>
+				</div>
+
+				<p><strong>Legacy BIOS</strong></p>
+				<div class="codeblock">
+					<pre><code>grub-install --target=i386-pc --boot-directory=/boot /dev/sdY</code>
+<p class="note"><strong>grub-install</strong> – Installs GRUB for BIOS systems.
+- <code>--boot-directory=/boot</code> specifies where GRUB files go.
+- Replace <code>/dev/sdY</code> with your actual target disk.</p></pre>
+				</div>
+
+				<p class="warn"><strong>Warning:</strong> Make sure to install for both <strong>UEFI</strong> and <strong>Legacy</strong> modes to ensure the USB boots on both.</p>
+
+				<p><strong>Generate GRUB configuration</strong></p>
+				<div class="codeblock">
+					<pre><code>grub-mkconfig -o /boot/grub/grub.cfg</code>
+<p class="note"><strong>grub-mkconfig</strong> – Automatically generates the GRUB configuration file, detecting all kernels and operating systems.</p></pre>
+				</div>
+
+				<p class="red"><strong>Warning:</strong> Make sure to replace <code>sdY</code> with your actual device. Installing GRUB to the wrong device can prevent your system from booting.</p>
+			</section>
+
+			<section id="network">
+				<h2>13 - Networking, Hosts, and DNS</h2>
+				<div class="codeblock">
+					<pre><code>systemctl enable systemd-networkd</code>
+<p class="note"><strong>systemd-networkd</strong> – Enables the systemd network service at boot, which manages network interfaces automatically.</p></pre>
+
+					<pre><code>systemctl enable systemd-resolved</code>
+<p class="note">Provides DNS resolution and caching for the system, required for hostname lookups and internet connectivity.</p></pre>
+
+					<pre><code>systemctl enable NetworkManager</code>
+<p class="note"><strong>NetworkManager</strong> – A higher-level tool to manage wired, wireless, and VPN connections with CLI or GUI tools.</p></pre>
+
+					<pre><code>host=$(cat /etc/hostname)
+sh -c "printf '127.0.0.1   localhost\n::1   localhost\n127.0.1.1   $host.localdomain   $host\n' > /etc/hosts"</code>
+<p class="note">Maps hostnames to IP addresses locally.
+This ensures your system can resolve its own hostname and loopback addresses without querying DNS.</p></pre>
+
+					<pre><code>sh -c 'printf "nameserver 8.8.8.8\nnameserver 1.1.1.1\n" >> /etc/resolv.conf'</code>
+<p class="note"><strong>/etc/resolv.conf</strong> – Adds public DNS servers (Google and Cloudflare) for name resolution.
+To ensures the system can resolve domain names on the internet.</p></pre>
+				</div>
+			</section>
+
+			<section id="desktop">
+				<h2>14 - Desktop Environment (optional)</h2>
+				<div class="codeblock">
+					<pre><code>pacman -S xfce4 xfce4-goodies lightdm lightdm-gtk-greeter network-manager-applet \
+	  bluez bluez-utils wget curl git xdg-utils gvfs openssh alsa-utils \
+	  pipewire pipewire-pulse pavucontrol wireplumber unzip ntfs-3g rsync \
+	  noto-fonts-emoji noto-fonts-cjk noto-fonts-extra chromium arch-install-scripts gparted</code></pre>
+					<ul>
+						<li><strong>xfce4</strong> – XFCE desktop environment.</li>
+						<li><strong>xfce4-goodies</strong> – Additional XFCE plugins and tools.</li>
+						<li><strong>lightdm</strong> – Display manager for graphical login.</li>
+						<li><strong>lightdm-gtk-greeter</strong> – GTK-based login screen for LightDM.</li>
+						<li><strong>network-manager-applet</strong> – GUI for managing network connections.</li>
+						<li><strong>bluez</strong> – Bluetooth protocol stack.</li>
+						<li><strong>bluez-utils</strong> – Bluetooth utilities for managing devices.</li>
+						<li><strong>wget</strong> – Command-line file downloader.</li>
+						<li><strong>curl</strong> – Command-line tool for transferring data with URLs.</li>
+						<li><strong>git</strong> – Version control system.</li>
+						<li><strong>neofetch</strong> – Displays system information in terminal.</li>
+						<li><strong>xdg-utils</strong> – Desktop integration utilities.</li>
+						<li><strong>gvfs</strong> – Virtual filesystem support for desktop apps.</li>
+						<li><strong>openssh</strong> – SSH client and server.</li>
+						<li><strong>alsa-utils</strong> – ALSA audio utilities.</li>
+						<li><strong>pipewire</strong> – Multimedia server for audio/video.</li>
+						<li><strong>pipewire-pulse</strong> – PulseAudio compatibility layer for PipeWire.</li>
+						<li><strong>pavucontrol</strong> – GUI volume control for PulseAudio/PipeWire.</li>
+						<li><strong>wireplumber</strong> – PipeWire session manager.</li>
+						<li><strong>unzip</strong> – Extract ZIP archives.</li>
+						<li><strong>ntfs-3g</strong> – NTFS filesystem support.</li>
+						<li><strong>rsync</strong> – File synchronization tool.</li>
+						<li><strong>noto-fonts</strong> – Much-needed fonts to include extra characters for different languages.</li>
+						<li><strong>arch-install-scripts</strong> – Scripts to aid in installing Arch Linux on other systems</li>
+						<li><strong>gparted</strong> – A Partition Magic clone</li>
+					</ul>
+					<p class="note">These packages install XFCE, essential utilities, audio/video support, network management, Bluetooth, and common CLI tools for daily usage.</p>
+
+					<pre><code>systemctl enable lightdm</code>
+<p class="note"><strong>systemctl enable lightdm</strong> – Starts the display manager automatically at boot, providing a login screen.</p></pre>
+
+					<pre><code>systemctl enable bluetooth</code>
+<p class="note"><strong>systemctl enable bluetooth</strong> – Starts the Bluetooth service automatically at boot for device pairing and management.</p></pre>
+				</div>
+			</section>
+
+			<section id="finish">
+				<h2>15 - Finish</h2>
+				<div class="codeblock">
+					<pre><code>exit</code>
+<p class="note"><strong>exit</strong> – Leaves the chroot environment, returning to the live installer system.</p></pre>
+
+					<pre><code>umount -R /mnt</code>
+<p class="note">Recursively unmounts all partitions mounted under <code>/mnt</code>, ensuring no filesystems are left mounted before shutdown.</p></pre>
+
+					<pre><code>poweroff</code>
+<p class="note">Shuts down the installer system safely. After this, you can remove the installation media and boot your new system.</p></pre>
+				</div>
+
+
+				<p class="warn"><strong>Warning:</strong> Remove the installer USB. Keep the target USB plugged in and boot from it. You should see the GRUB menu, then be prompted for your LUKS passphrase.</p>
+			</section>
+
+			<section>
+				<p class="ok"><strong>Et voilà!</strong> You now have a portable, encrypted Arch Linux on USB.</p>
+			</section>
+
+		</main>
+	</body>
+</html>
