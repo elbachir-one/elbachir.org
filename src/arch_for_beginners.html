@@ -35,6 +35,7 @@
 					<li><a href="#network">Networking</a></li>
 					<li><a href="#desktop">Desktop environment</a></li>
 					<li><a href="#finish">Finish</a></li>
+					<li><a href="#post">Post Installation</a></li>
 				</ol>
 			</div>
 		</nav>
@@ -247,8 +248,8 @@ Uncomment the line at the bottom of the file by removing the <strong>#</strong> 
 <p class="note">This enables GRUB to detect and recognize other operating systems.</p></pre>
 
 
-<p class="red">Use this only if you have another OS and want to dual boot between Arch Linux and that OS.
-You can skip this step if you don’t want to set up dual booting.</p></pre>
+					<p class="red">Use this only if you have another OS and want to dual boot between Arch Linux and that OS.
+					You can skip this step if you don’t want to set up dual booting.</p></pre>
 			</section>
 
 			<section id="grub-install">
@@ -357,11 +358,24 @@ To ensures the system can resolve domain names on the internet.</p></pre>
 <p class="note">Shuts down the installer system safely. After this, you can remove the installation media and boot your new system.</p></pre>
 				</div>
 
-<p class="warn"><strong>Warning:</strong> Remove the installer USB and boot your computer.</p>
+				<p class="warn"><strong>Warning:</strong> Remove the installer USB and boot your computer.</p>
 
-			<section>
-				<p class="ok"><strong>Et voilà!</strong> You now have installed Arch Linux.</p>
-			</section>
+				<section id="post">
+					<h2>15 - Post Installation</h2>
+
+					<p class="ok">Let's set up <strong>YAY</strong>, the AUR helper.</p>
+
+					<pre><code>cd /tmp/ && git clone https://aur.archlinux.org/yay</code>
+<code>cd yay/ && makepkgs -si --noconfirm</code></pre>
+					<p class="ok">And now you can just use <strong>yay</strong> instead of <strong>pacman</strong>.</p>
+					<pre><code>yay -Syu</code>
+<code>yay -S fastfetch</code>
+<code>fastfetch</code></pre>
+				</section>
+
+				<section>
+					<p class="ok"><strong>Et voilà!</strong> You now have installed Arch Linux.</p>
+				</section>
 
 		</main>
 	</body>
