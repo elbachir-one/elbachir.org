@@ -1,0 +1,265 @@
+:root {
+	--bg:#202020;
+	--panel:#121212;
+	--border:#23115a;
+	--text:#fbf1c7;
+	--muted:#a89984;
+	--accent:#fe8019;
+	--accent-2:#8ec07c;
+	--accent-3:#83a598;
+	--warn:#fabd2f;
+	--ok:#33ff6b;
+	--link:#33a6ff;
+	--code-bg:#111317;
+	--kbd-bg:#282828;
+	--shadow: 0 10px 30px rgba(0,0,0,.35);
+	--radius: 16px;
+	--mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Fira Code", "FiraCode Nerd Font", monospace;
+	--sans: Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Noto Sans", Ubuntu, Cantarell, "Helvetica Neue", Arial, "Apple Color Emoji", "Segoe UI Emoji";
+}
+
+html, body {
+	height: 100%;
+}
+
+body {
+	margin: 0;
+	background: radial-gradient(1200px 800px at 80% -10%, rgba(254,128,25,.12), transparent 60%),
+	radial-gradient(900px 600px at -10% 110%, rgba(131,165,152,.12), transparent 60%),
+	var(--bg);
+	color: var(--text);
+	font-family: var(--sans);
+	line-height: 1.6;
+	-webkit-font-smoothing: antialiased;
+	text-rendering: optimizeLegibility;
+}
+
+nav.toc {
+	position: fixed;
+	top: 10px;
+	left: 20px;
+	width: 220px;
+	background: var(--panel);
+	border: 1px solid var(--border);
+	border-radius: var(--radius);
+	padding: 18px;
+	box-shadow: var(--shadow);
+}
+
+.toc h2 {
+	margin: 0 0 6px;
+	font-size: 18px;
+}
+
+.toc ol {
+	margin: 8px 0 0 18px;
+}
+
+.toc a {
+	color: var(--link);
+	text-decoration: none;
+}
+
+.toc a:hover {
+	text-decoration: underline;
+}
+
+header {
+	max-width: calc(100% - 320px);
+	margin-left: 300px;
+	margin-right: 20px;
+	margin-top: 48px;
+	margin-bottom: 16px;
+	padding: 0 20px;
+}
+
+.title {
+	font-size: clamp(28px, 5vw, 48px);
+	font-weight: 800;
+	letter-spacing: .2px;
+	margin: 0 0 8px;
+}
+
+.subtitle {
+	color: var(--muted);
+	margin: 0 0 18px;
+}
+
+.badge {
+	display: inline-flex;
+	gap: 8px;
+	align-items: center;
+	font-size: 14px;
+	color: var(--muted);
+}
+
+.badge span {
+	background: var(--panel);
+	border: 1px solid var(--border);
+	padding: 6px 10px;
+	border-radius: 999px;
+}
+
+main {
+	margin-left: 270px;
+	max-width: calc(100% - 300px);
+	margin-bottom: 100px;
+	padding: 0 20px;
+}
+
+section {
+	background: rgba(18,18,18,.66);
+	border: 1px solid var(--border);
+	border-radius: var(--radius);
+	padding: 22px;
+	margin: 18px 0;
+	box-shadow: var(--shadow);
+}
+
+section h2 {
+	margin: 0 0 8px;
+	font-size: 24px;
+}
+
+p {
+	margin: 10px 0;
+}
+
+ul, ol {
+	margin: 8px 0 8px 22px;
+}
+
+.grid {
+	display: grid;
+	gap: 18px;
+}
+
+@media (min-width:860px) {
+	.grid.cols-2 {
+		grid-template-columns: 1fr 1fr;
+	}
+}
+
+.note, .warn, .red, .ok {
+	border-left: 4px solid var(--accent-3);
+	padding: 10px 12px;
+	background: rgba(131,165,152,.08);
+	border-radius: 12px;
+	margin: 10px 0;
+}
+
+.warn {
+	border-color: var(--warn);
+	background: rgba(250,189,47,.08);
+}
+
+.ok {
+	border-color: var(--accent-2);
+	background: rgba(142,192,124,.08);
+}
+
+.card {
+	background: var(--panel);
+	border: 1px solid var(--border);
+	border-radius: 14px;
+	padding: 12px;
+}
+
+table {
+	width: 100%;
+	border-collapse: collapse;
+	margin: 10px 0;
+	font-size: 15px;
+}
+
+th, td {
+	border: 1px solid var(--border);
+	padding: 10px 12px;
+}
+
+th {
+	background: linear-gradient(to bottom, rgba(254,128,25,.12), rgba(254,128,25,.05));
+	text-align: left;
+}
+
+pre {
+	background: var(--code-bg);
+	border: 1px solid #1c2128;
+	border-radius: 12px;
+	padding: 14px;
+	overflow: auto;
+	position: relative;
+	box-shadow: inset 0 0 0 1px rgba(255,255,255,.02);
+}
+
+code {
+	color: #fff;
+	font-family: bold, var(--mono);
+	font-size: 14px;
+}
+
+.codeblock {
+	position: relative;
+}
+
+kbd {
+	font-family: var(--mono);
+	font-size: 13px;
+	background: var(--kbd-bg);
+	border: 1px solid var(--border);
+	border-bottom-color: #1a1a1a;
+	padding: 2px 6px;
+	border-radius: 6px;
+}
+
+a {
+	color: var(--link);
+}
+
+hr {
+	border: 0;
+	height: 1px;
+	background: linear-gradient(90deg, transparent, var(--border), transparent);
+	margin: 24px 0;
+}
+
+footer {
+	max-width: 1000px;
+	margin: 28px auto 60px;
+	padding: 0 20px;
+	color: var(--muted);
+	font-size: 14px;
+}
+
+@media print {
+	body {
+		background: #fff;
+		color: #000;
+	}
+	section, .toc-inner {
+		box-shadow: none;
+		border-color: #ddd;
+	}
+	.copy {
+		display: none;
+	}
+}
+
+@media (max-width: 860px) {
+	nav.toc {
+		position: static;
+		width: auto;
+		height: auto;
+		overflow: visible;
+		margin: 8px auto 28px;
+	}
+	header, main {
+		margin-left: 0;
+		max-width: 100%;
+	}
+}
+
+.red {
+	border-color: #ff3333;
+	background: rgba(255, 51, 51, 0.08);
+}
