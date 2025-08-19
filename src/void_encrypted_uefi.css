@@ -1,0 +1,135 @@
+body {
+	margin: 0;
+	font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+	background-color: #1d1f21;
+	color: #fbf1c7;
+	line-height: 1.6;
+	display: flex;
+	min-height: 100vh;
+}
+
+nav {
+	width: 250px;
+	background-color: #282828;
+	padding: 20px;
+	position: fixed;
+	height: 100%;
+	overflow-y: auto;
+	transition: transform 0.3s ease;
+}
+nav h2 {
+	color: #fabd2f;
+	margin-top: 0;
+	font-size: 1.2em;
+}
+nav a {
+	display: block;
+	color: #8ec07c;
+	text-decoration: none;
+	margin: 10px 0;
+}
+nav a:hover {
+	color: #83a598;
+}
+
+main {
+	margin-left: 300px;
+	padding: 20px;
+	max-width: 900px;
+}
+h1, h2, h3 {
+	color: #fabd2f;
+}
+h1 { border-bottom: 2px solid #fabd2f; padding-bottom: 5px; }
+
+code, pre {
+	background-color: #3c3836;
+	padding: 4px 6px;
+	border-radius: 4px;
+	font-family: monospace;
+	word-break: break-word;
+}
+pre {
+	color: #ffffff;
+	font-size: 1.2em;
+	padding: 10px;
+	overflow-x: auto;
+}
+a.external {
+	color: #8ec07c;
+}
+a.external:hover {
+	text-decoration: underline;
+	color: #83a598;
+}
+
+.note {
+	background-color: #3c3836;
+	padding: 6px;
+	border-left: 6px solid #fe8019;
+	margin: 10px 0;
+}
+
+.ok {
+	background-color: #3c3836;
+	padding: 6px;
+	border-left: 6px solid #a3dea5;
+	margin: 10px 0;
+}
+
+.warn {
+	background-color: #3c3836;
+	padding: 6px;
+	border-left: 6px solid #807dd1;
+	margin: 10px 0;
+}
+
+.red {
+	background-color: #3c3836;
+	padding: 6px;
+	border-left: 6px solid #ee1c13;
+	margin: 10px 0;
+}
+
+section {
+	margin-bottom: 50px;
+	scroll-margin-top: 70px;
+}
+
+.nav-toggle-label {
+	display: none;
+	position: fixed;
+	top: 10px;
+	left: 10px;
+	font-size: 2em;
+	color: #8ec07c;
+	background-color: #282828;
+	padding: 5px 10px;
+	border-radius: 5px;
+	cursor: pointer;
+	z-index: 1000;
+}
+
+#nav-toggle:checked + .nav-toggle-label + nav {
+	transform: translateX(0);
+}
+
+@media (max-width: 768px) {
+	body {
+		flex-direction: column;
+	}
+	nav {
+		transform: translateX(-260px);
+		position: fixed;
+		width: 250px;
+		height: 100%;
+		z-index: 999;
+	}
+	main {
+		margin-left: 0;
+		padding: 20px;
+	}
+	.nav-toggle-label {
+		display: block;
+	}
+}
