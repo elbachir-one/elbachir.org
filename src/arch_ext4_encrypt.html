@@ -272,12 +272,11 @@ Uncomment the line at the bottom of the file by removing the <strong>#</strong> 
 <p class="note">Outputs the unique identifier of your LUKS encrypted partition. It tells GRUB which partition to unlock.</p></pre>
 
 					<pre><code>UUID=$(cryptsetup luksUUID /dev/sdY3)
-sed -i "s|^GRUB_CMDLINE_LINUX=.*|GRUB_CMDLINE_LINUX=\"cryptdevice=UUID=$UUID:root\"|" /etc/default/grub
-</code>
+sed -i "s|^GRUB_CMDLINE_LINUX=.*|GRUB_CMDLINE_LINUX=\"cryptdevice=UUID=$UUID:root\"|" /etc/default/grub</code>
 <p class="note">This two-line command retrieves the LUKS UUID automatically and updates the GRUB configuration safely, avoiding
 manual copy/paste.</p></pre>
 				</div>
-				<p class="warn"><strong>Warning:</strong> A single wrong character can make the system unbootable. Double‑check the UUID and syntax before updating GRUB.</p>
+<p class="warn"><strong>Warning:</strong> A single wrong character can make the system unbootable. Double‑check the UUID and syntax before updating GRUB.</p>
 			</section>
 
 			<section id="initramfs">
@@ -450,6 +449,14 @@ RuntimeMaxUse=30M</pre>
 					<p class="ok">The next step is to install drivers. The Arch Wiki recommends using open-source drivers instead of proprietary ones:</p>
 					<p class="ok">Ensure you are connected to the internet. If using Wi-Fi, run <code>nmtui</code> to connect; if using Ethernet, you should be connected automatically.</p>
 					<pre><code>pacman -S xf86-video-vesa xf86-video-ati xf86-video-intel xf86-video-amdgpu xf86-video-nouveau</code></pre>
+					<p class="ok">Let's set up <strong>YAY</strong>, the AUR helper.</p>
+
+					<pre><code>cd /tmp/ && git clone https://aur.archlinux.org/yay</code>
+<code>cd yay/ && makepkgs -si --noconfirm</code></pre>
+					<p class="ok">And now you can just use <strong>yay</strong> instead of <strong>pacman</strong>.</p>
+					<pre><code>yay -Syu</code>
+<code>yay -S fastfetch</code>
+<code>fastfetch</code></pre>
 
 					<p class="ok">After that, reboot, and that’s it—you can now use your USB stick on any computer.</p>
 				</div>

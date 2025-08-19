@@ -37,6 +37,7 @@
 					<li><a href="#network">Networking</a></li>
 					<li><a href="#desktop">Desktop environment</a></li>
 					<li><a href="#finish">Finish</a></li>
+					<li><a href="#post">Post Installation</a></li>
 				</ol>
 			</div>
 		</nav>
@@ -420,6 +421,19 @@ To ensures the system can resolve domain names on the internet.</p></pre>
 
 				<p class="warn"><strong>Warning:</strong> Remove the installer USB. Keep the target USB plugged in and boot from it. You should see the GRUB menu, then be prompted for your LUKS passphrase.</p>
 			</section>
+
+				<section id="post">
+					<h2>16 - Post Installation</h2>
+
+					<p class="ok">Let's set up <strong>YAY</strong>, the AUR helper.</p>
+
+					<pre><code>cd /tmp/ && git clone https://aur.archlinux.org/yay</code>
+<code>cd yay/ && makepkgs -si --noconfirm</code></pre>
+					<p class="ok">And now you can just use <strong>yay</strong> instead of <strong>pacman</strong>.</p>
+					<pre><code>yay -Syu</code>
+<code>yay -S fastfetch</code>
+<code>fastfetch</code></pre>
+				</section>
 
 			<section>
 				<p class="ok"><strong>Et voilà!</strong> You now have a portable, encrypted Arch Linux on USB.</p>
