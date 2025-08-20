@@ -81,6 +81,7 @@ a.external:hover {
 	padding: 6px;
 	border-left: 6px solid #fe8019;
 	margin: 10px 0;
+	border-radius: 6px;
 }
 
 .ok {
@@ -88,6 +89,7 @@ a.external:hover {
 	padding: 6px;
 	border-left: 6px solid #a3dea5;
 	margin: 10px 0;
+	border-radius: 6px;
 }
 
 .warn {
@@ -95,6 +97,7 @@ a.external:hover {
 	padding: 6px;
 	border-left: 6px solid #807dd1;
 	margin: 10px 0;
+	border-radius: 6px;
 }
 
 .red {
@@ -102,6 +105,7 @@ a.external:hover {
 	padding: 6px;
 	border-left: 6px solid #ee1c13;
 	margin: 10px 0;
+	border-radius: 6px;
 }
 
 section {
