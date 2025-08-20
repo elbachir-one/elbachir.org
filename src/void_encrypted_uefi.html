@@ -44,8 +44,8 @@
 					<li>Boot from the USB drive.</li>
 					<li>Login as <code>root</code> (password: <code>voidlinux</code>).</li>
 					<li>Sync the repositories and update the package manager:
-						<pre><code>xbps-install -S</code>
-<code>xbps-install -u xbps</code></pre></li>
+						<pre><code>xbps-install -S</code></pre>
+<pre><code>xbps-install -u xbps</code></pre></li>
 						<li>Install a text editor:
 							<pre><code>xbps-install -S nano</code></pre></li>
 				<div class="ok">
@@ -91,24 +91,30 @@
 					<p>If you created a <strong>home</strong> partition, you should allocate the remaining disk space accordingly.</p>
 				</div>
 					<li>Format the root filesystem:
-						<pre><code>mkfs.ext4 -L root /dev/cryptroot/root</code>
-<code>mount /dev/cryptroot/root /mnt</code></pre>
+						<pre><code>mkfs.ext4 -L root /dev/cryptroot/root</code></pre>
+<pre><code>mount /dev/cryptroot/root /mnt</code></pre>
 					</li>
 				<div class="warn">
 					<p>The <strong>root</strong> is just a label.</p>
 				</div>
 					<li>Format the EFI partition and mount it:
-						<pre><code>mkfs.vfat /dev/sda1</code>
-<code>mkdir -p /mnt/boot/efi</code>
-<code>mount /dev/sda1 /mnt/boot/efi</code></pre>
+						<pre><code>mkfs.vfat /dev/sda1</code></pre>
+<pre><code>mkdir -p /mnt/boot/efi</code></pre>
+<pre><code>mount /dev/sda1 /mnt/boot/efi</code></pre>
 					</li>
 				</ul>
 			</section>
 
 			<section id="copy-keys">
 				<h2>5. Copy RSA Keys</h2>
-				<pre><code>mkdir -p /mnt/var/db/xbps/keys</code>
-<code>cp /var/db/xbps/keys/* /mnt/var/db/xbps/keys/</code></pre>
+				<pre><code>mkdir -p /mnt/var/db/xbps/keys</code></pre>
+
+				<div class="warn">
+					<p>Copying the RSA keys from the installer to the new system</p>
+				</div>
+
+<pre><code>cp /var/db/xbps/keys/* /mnt/var/db/xbps/keys/</code></pre>
+
 			</section>
 
 			<section id="install-base">
@@ -119,25 +125,47 @@ base-system lvm2 cryptsetup grub-x86_64-efi nano NetworkManager</code></pre>
 
 			<section id="chroot">
 				<h2>7. Chroot into the New System</h2>
-				<pre><code>xchroot /mnt</code>
-<code>chown root:root /</code>
-<code>chmod 755 /</code>
-<code>passwd root</code>
-<code>echo VOID_ENCRYPTED > /etc/hostname</code></pre>
+				<div class="ok">
+					<p>Using xchroot to enter the new system</p>
+				</div>
+				<pre><code>xchroot /mnt</code></pre>
+<pre><code>chown root:root /</code></pre>
+<pre><code>chmod 755 /</code></pre>
+				<div class="ok">
+					<p>Give the root user a password.</p>
+				</div>
+<pre><code>passwd root</code></pre>
+
+				<div class="ok">
+					<p>Set your hostname by replacing <code>VOID_ENCRYPTED</code> with your desired name.</p>
+				</div>
+<pre><code>echo "VOID_ENCRYPTED" > /etc/hostname</code></pre>
 
 				<div class="note">
 					For locale configuration (glibc only):
-					<pre><code>echo "LANG=en_US.UTF-8" > /etc/locale.conf</code>
-<code>echo "en_US.UTF-8 UTF-8" >> /etc/default/libc-locales</code>
-<code>xbps-reconfigure -f glibc-locales</code></pre>
+					<pre><code>echo "lang=en_US.UTF-8" > /etc/locale.conf</code>
+<code>echo "en_US.UTF-8 UTF-8" >> /etc/default/libc-locales</code></pre>
+				</div>
+				<div class="warn">
+					<p>Set the locale by replacing <code>en_US.UTF-8</code> with your preferred language.</p>
+				</div>
+
+<pre><code>xbps-reconfigure -f glibc-locales</code></pre>
+
+				<div class="ok">
+					<p>Reconfigure the locales</p>
 				</div>
 			</section>
 
 			<section id="filesystems">
 				<h2>8. Configure Filesystems</h2>
-				<p>Edit <code>/etc/fstab</code>: like so <code>nano /etc/fstab</code>.</p>
+				<p>Edit <code>nano /etc/fstab</code>:</p>
 				<pre><code>/dev/cryptroot/root  /            ext4    defaults    0    0</code>
 <code>/dev/sda1            /boot/efi    vfat    defaults    0    0</code></pre>
+
+				<div class="warn">
+					<p>You can also use the UUID instead of the device name</p>
+				</div>
 			</section>
 
 			<section id="grub-config">
@@ -150,28 +178,46 @@ base-system lvm2 cryptsetup grub-x86_64-efi nano NetworkManager</code></pre>
 				<p>Edit <code>nano /etc/default/grub</code> and add the UUID:</p>
 				<pre><code>GRUB_CMDLINE_LINUX_DEFAULT="loglevel=4 rd.lvm.vg=cryptroot rd.luks.uuid=&lt;uuid&gt;"</code></pre>
 
-				<div class="note">
+				<div class="red">
 					<p>Replace <code>&lt;uuid&gt;</code> with the value you got from <code>blkid -o value -s UUID /dev/sda2</code>.</p>
 				</div>
 
-				<div class="red">
+				<div class="note">
 <p>
 If you don’t know how to add the UUID to that GRUB line, you can run the following command:
 <pre><code>sed -i "s|^GRUB_CMDLINE_LINUX_DEFAULT=.*|GRUB_CMDLINE_LINUX_DEFAULT=\"loglevel=4 rd.lvm.vg=cryptroot rd.luks.uuid=$(blkid -o value -s UUID /dev/sda2)\"|" /etc/default/grub</code></pre>
 This will automate the process for you, so you don’t have to open the GRUB config file manually. However, you can still open it if you want to double-check.
 </p>
 				</div>
+				<div class="red">
+					<p>Replace <strong>sda2</strong> with your own root partition.</p>
+				</div>
+
 			</section>
 
 			<section id="keyfile">
 				<h2>10. Add a Keyfile</h2>
-				<pre><code>dd bs=1 count=64 if=/dev/urandom of=/boot/volume.key</code>
-<code>cryptsetup luksAddKey /dev/sda2 /boot/volume.key</code>
-<code>chmod 000 /boot/volume.key</code>
+				<div class="warn">
+					<p>The following command is creating a random key file and saving it to <code>/boot/volume.key</code>.</p>
+				</div>
+				<pre><code>dd bs=1 count=64 if=/dev/urandom of=/boot/volume.key</code></pre>
+				<div class="warn">
+					<p>Adding the key.</p>
+				</div>
+<pre><code>cryptsetup luksAddKey /dev/sda2 /boot/volume.key</code></pre>
+
+				<div class="warn">
+					<p>These two commands set the correct permissions for the key file.</p>
+				</div>
+<pre><code>chmod 000 /boot/volume.key</code>
 <code>chmod -R g-rwx,o-rwx /boot</code></pre>
 
 				<p>Edit <code>nano /etc/crypttab</code> and add the following line to the file:</p>
 				<pre><code>cryptroot      /dev/sda2      /boot/volume.key     luks</code></pre>
+
+				<div class="note">
+					<p>Use your device name instead of <strong>sda2</strong>.</p>
+				</div>
 
 				<p>Edit <code>nano /etc/dracut.conf.d/10-crypt.conf</code> and add the following line to the file:</p>
 				<pre><code>install_items+=" /boot/volume.key /etc/crypttab "</code></pre>
@@ -185,7 +231,7 @@ This will automate the process for you, so you don’t have to open the GRUB con
 				</div>
 				<pre>
 <code>xbps-reconfigure -fa</code></pre>
-				<div class="ok">
+				<div class="warn">
 					<p>Reconfigures everything and regenerates the GRUB configuration file.</p>
 				</div>
 <pre><code>exit</code></pre>

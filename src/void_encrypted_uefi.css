@@ -17,17 +17,20 @@ nav {
 	overflow-y: auto;
 	transition: transform 0.3s ease;
 }
+
 nav h2 {
 	color: #fabd2f;
 	margin-top: 0;
 	font-size: 1.2em;
 }
+
 nav a {
 	display: block;
 	color: #8ec07c;
 	text-decoration: none;
 	margin: 10px 0;
 }
+
 nav a:hover {
 	color: #83a598;
 }
@@ -37,27 +40,37 @@ main {
 	padding: 20px;
 	max-width: 900px;
 }
+
 h1, h2, h3 {
 	color: #fabd2f;
 }
-h1 { border-bottom: 2px solid #fabd2f; padding-bottom: 5px; }
 
-code, pre {
-	background-color: #3c3836;
+h1 {
+	border-bottom: 2px solid #fabd2f;
+	padding-bottom: 5px;
+}
+
+code{
 	padding: 4px 6px;
 	border-radius: 4px;
 	font-family: monospace;
 	word-break: break-word;
 }
+
 pre {
 	color: #ffffff;
 	font-size: 1.2em;
-	padding: 10px;
+	padding: 12px;
 	overflow-x: auto;
+	background-color: #1d2021;
+	border-radius: 4px;
+	box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
 }
+
 a.external {
 	color: #8ec07c;
 }
+
 a.external:hover {
 	text-decoration: underline;
 	color: #83a598;
