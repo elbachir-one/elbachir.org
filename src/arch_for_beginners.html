@@ -108,14 +108,31 @@
 
 			<section id="partition">
 				<h2>4 - Partition target Drive</h2>
-				<p>Create three partitions on the <em>target</em> USB:</p>
+				<div class="ok">
+					<p><strong>Tip:</strong> To have the best partition layout, it’s recommended to create a separate <strong>home</strong> partition. This way, if you ever mess up the root partition, you can reinstall the system and mount the existing home partition without losing your personal data.</p>
+
+					<p>The general guideline is: the more disk space you have, the better it is to have a separate home partition. I recommend giving your <strong>root</strong> partition about <strong>25% of the total disk space</strong> and leaving the rest for the home partition. This will result in <strong>three partitions</strong>: <strong>EFI, ROOT, HOME</strong>.</p>
+
+					<h4>Example for a 512 GiB Drive</h4>
+					<ul>
+						<li>EFI partition: 2 GiB</li>
+						<li>Root partition: 128 GiB (25%)</li>
+						<li>Home partition: 382 GiB (remaining space)</li>
+					</ul>
+
+					<p>As for swap, it’s better to create a <strong>swap file</strong> instead of a dedicated swap partition. 
+					This makes resizing easier. The size of the swap file depends on your RAM and whether you want to enable hibernation. 
+					For instance, if you have <strong>16 GiB of RAM</strong>, a <strong>16 GiB swap file</strong> is a reasonable choice.</p>
+				</div>
+				<p>Create two partitions on the <em>target</em> Drive (512GiB):</p>
 				<table>
 					<thead>
 						<tr><th>#</th><th>Purpose</th><th>Size</th><th>Type / FS</th><th>Mount</th></tr>
 					</thead>
 					<tbody>
-						<tr><td>1</td><td>UEFI system</td><td>1&nbsp;GB</td><td>vfat (FAT32)</td><td>/boot</td></tr>
-						<tr><td>2</td><td>Root</td><td>Rest</td><td>Ext4</td><td>/</td></tr>
+						<tr><td>1</td><td>UEFI system</td><td>2&nbsp;GiB</td><td>vfat (FAT32)</td><td>/boot</td></tr>
+						<tr><td>2</td><td>Root</td><td>128&nbsp;GiB</td><td>Ext4</td><td>/</td></tr>
+						<tr><td>3</td><td>Home</td><td>Rest</td><td>Ext4</td><td>/home</td></tr>
 					</tbody>
 				</table>
 				<div class="codeblock">
@@ -134,12 +151,16 @@
 
 					<pre><code>mkfs.ext4 /dev/sdY2</code>
 <p class="note">Formats the second partition with the Ext4 filesystem</p></pre>
+
+					<pre><code>mkfs.ext4 /dev/sdY3</code>
+<p class="note">Formats the 3 partition with the Ext4 filesystem</p></pre>
+
 				</div>
 			</section>
 
 			<section id="ext4">
 				<h2>6 - Mount the filesystem</h2>
-				<p>Next, we mount the root filesystem and the EFI partition</p>
+				<p>Next, we mount the root filesystem, the home partition, and the EFI partition.</p>
 
 				<div class="codeblock">
 					<pre><code>mount /dev/sdY2 /mnt</code>
@@ -150,6 +171,12 @@
 
 					<pre><code>mount /dev/sdY2 /mnt/boot</code>
 <p class="note">Mounts the EFI system partition at <code>/mnt/boot</code>.</p></pre>
+
+					<pre><code>mkdir -vp /mnt/home</code>
+<p class="note">Creates the <code>/home</code> directory inside <code>/mnt</code> to mount the corresponding partition.</p></pre>
+
+					<pre><code>mount /dev/sdY3 /mnt/home</code>
+<p class="note">Mounts the Home partition at <code>/mnt/home</code>.</p></pre>
 
 					<pre><code>lsblk -pf /dev/sdY</code>
 <p class="note">Lists the partitions, filesystems, and mount points to verify everything is set up correctly.</p></pre>
@@ -273,7 +300,7 @@ Uncomment the line at the bottom of the file by removing the <strong>#</strong> 
 			</section>
 
 			<section id="network">
-				<h2>12 - Networking, Hosts, and DNS</h2>
+				<h2>12 - Networking, Hosts</h2>
 				<div class="codeblock">
 					<pre><code>systemctl enable systemd-networkd</code>
 <p class="note">Enables the systemd network service at boot, which manages network interfaces automatically.</p></pre>
@@ -289,9 +316,6 @@ sh -c "printf '127.0.0.1   localhost\n::1   localhost\n127.0.1.1   $host.localdo
 <p class="note">Maps hostnames to IP addresses locally.
 This ensures your system can resolve its own hostname and loopback addresses without querying DNS.</p></pre>
 
-					<pre><code>sh -c 'printf "nameserver 8.8.8.8\nnameserver 1.1.1.1\n" >> /etc/resolv.conf'</code>
-<p class="note"><strong>/etc/resolv.conf</strong> – Adds public DNS servers (Google and Cloudflare) for name resolution.
-To ensures the system can resolve domain names on the internet.</p></pre>
 				</div>
 			</section>
 
@@ -349,7 +373,7 @@ To ensures the system can resolve domain names on the internet.</p></pre>
 				<h2>14 - Finish</h2>
 				<div class="codeblock">
 					<pre><code>exit</code>
-<p class="note"><strong>exit</strong> – Leaves the chroot environment, returning to the live installer system.</p></pre>
+<p class="note">Leaves the chroot environment, returning to the live installer system.</p></pre>
 
 					<pre><code>umount -R /mnt</code>
 <p class="note">Recursively unmounts all partitions mounted under <code>/mnt</code>, ensuring no filesystems are left mounted before shutdown.</p></pre>
@@ -362,6 +386,12 @@ To ensures the system can resolve domain names on the internet.</p></pre>
 
 				<section id="post">
 					<h2>15 - Post Installation</h2>
+
+				<p class="warn">After booting and logging in as your user, the <strong>DNS</strong> step is important, while the <strong>YAY</strong> step is optional.</p>
+					<p class="ok">Let's set up the <strong>DNS</strong></p>
+					<pre><code>sh -c 'printf "nameserver 8.8.8.8\nnameserver 1.1.1.1\n" >> /etc/resolv.conf'</code>
+<p class="note">Adds public DNS servers (Google and Cloudflare) for name resolution.
+To ensures the system can resolve domain names on the internet.</p></pre>
 
 					<p class="ok">Let's set up <strong>YAY</strong>, the AUR helper.</p>
 
