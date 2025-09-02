@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>Share a Linux Folder with Windows</title>
+		<link rel="stylesheet" href="setup_samba_on_void.css">
+	</head>
+	<body>
+		<header>
+			<h1>Sharing a Linux Folder with Windows</h1>
+			<p>A simple guide using Samba with Void Linux</p>
+		</header>
+
+		<main>
+			<section class="step">
+				<h2>1. Install Samba</h2>
+				<pre><code>sudo xbps-install -S samba</code></pre>
+			</section>
+
+			<section class="step">
+				<h2>2. Create a Shared Folder</h2>
+				<pre><code>mkdir -p ~/SharedFolder </code>
+<code>chmod 777 ~/SharedFolder</code></pre>
+			</section>
+
+			<section class="step">
+				<h2>3. Configure Samba</h2>
+				<p>Edit <code>sudo nano /etc/samba/smb.conf</code> and add:</p>
+				<pre><code>[SharedFolder]
+   path = /home/yourUser/SharedFolder
+   browseable = yes
+   read only = no
+   guest ok = yes
+   force user = yourUser</code></pre>
+			</section>
+
+			<section class="step">
+				<h2>4. Add a Samba User</h2>
+				<pre><code>sudo smbpasswd -a yourUser</code></pre>
+			</section>
+
+			<section class="step">
+				<h2>5. Enable the Samba Service</h2>
+				<pre><code>sudo ln -s /etc/sv/smbd /var/service/</code>
+<code>sudo ln -s /etc/sv/nmbd /var/service/</code></pre>
+				<p>Reboot the system <code>sudo reboot</code></p>
+				<div class="note">
+					<strong>Tip:</strong> After rebooting, get the IP address of your Void Linux box by running <code>ip a</code>.
+It should look something like <code>192.168.1.50</code>. This is just an example — use your actual IP address when connecting from Windows.
+				</div>
+			</section>
+
+			<section class="step">
+				<h2>6. Connect from Windows</h2>
+				<p>Press <strong><kbd>Win</kbd>+<kbd>R</kbd></strong> and type:</p>
+				<pre><code>\\&lt;linux-ip-address&gt;\SharedFolder</code></pre>
+				<p>Log in with your Samba username and password.</p>
+			</section>
+
+			<section class="step">
+				<h2>7. Save the Folder in Windows</h2>
+				<h3>Option A: Map as a Network Drive</h3>
+				<ol>
+					<li>Open File Explorer → Right-click <b>This PC</b> → <b>Map network drive</b></li>
+					<li>Choose a letter (e.g. <b>Z:</b>)</li>
+					<li>Enter <code>\\&lt;linux-ip&gt;\SharedFolder</code></li>
+					<li>Check <b>Reconnect at sign-in</b></li>
+				</ol>
+
+				<h3>Option B: Create a Shortcut</h3>
+				<ol>
+					<li>Right-click Desktop → New → Shortcut</li>
+					<li>Enter <code>\\&lt;linux-ip&gt;\SharedFolder</code></li>
+					<li>Name it <b>Linux Share</b></li>
+				</ol>
+
+				<h3>Option C: Backup/Sync</h3>
+				<p>Copy with Robocopy:</p>
+				<pre><code>robocopy \\&lt;linux-ip&gt;\SharedFolder C:\LocalCopy /MIR</code></pre>
+			</section>
+
+			<div class="note">
+				<strong>Tip:</strong> Replace <code>&lt;linux-ip&gt;</code> with your actual Linux machine IP, e.g. <code>192.168.1.50</code>.
+			</div>
+		</main>
+
+		<footer>
+			<p><strong>Et voilà</strong> – The End</p>
+		</footer>
+	</body>
+</html>
