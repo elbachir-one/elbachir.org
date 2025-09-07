@@ -159,7 +159,7 @@
 			</section>
 
 			<section id="ext4">
-				<h2>6 - Mount the filesystem</h2>
+				<h2>6 - Mount the Filesystem</h2>
 				<p>Next, we mount the root filesystem, the home partition, and the EFI partition.</p>
 
 				<div class="codeblock">
@@ -210,7 +210,7 @@
 			</section>
 
 			<section id="fstab">
-				<h2>8 - Generate fstab</h2>
+				<h2>8 - Generate the Fstab</h2>
 				<div class="codeblock">
 					<pre><code>genfstab -U /mnt &gt; /mnt/etc/fstab</code></pre>
 					<p class="note">Generates the <code>fstab</code> file using UUIDs (-U) for all mounted partitions under <code>/mnt</code>, and writes it to <code>/mnt/etc/fstab</code>. This file tells the system which partitions to mount at boot.</p>
@@ -311,11 +311,14 @@ Uncomment the line at the bottom of the file by removing the <strong>#</strong> 
 					<pre><code>systemctl enable NetworkManager</code>
 <p class="note">A higher-level tool to manage wired, wireless, and VPN connections with CLI or GUI tools.</p></pre>
 
-					<pre><code>host=$(cat /etc/hostname)
-sh -c "printf '127.0.0.1   localhost\n::1   localhost\n127.0.1.1   $host.localdomain   $host\n' > /etc/hosts"</code>
-<p class="note">Maps hostnames to IP addresses locally.
-This ensures your system can resolve its own hostname and loopback addresses without querying DNS.</p></pre>
+					<pre><p>Edit the file <strong><code>/etc/hosts</code></strong> with <code>nano</code> and add the following lines</p>
+<code>127.0.0.1   localhost</code>
+<code>::1         localhost</code>
+<code>127.0.1.1   YourHostName.localdomain   YourHostName</code>
 
+<p class="note">Change <strong>YourHostName</strong> to your own host name.
+Maps hostnames to IP addresses locally.
+This ensures your system can resolve its own hostname and loopback addresses without querying DNS.</p></pre>
 				</div>
 			</section>
 
@@ -389,7 +392,9 @@ This ensures your system can resolve its own hostname and loopback addresses wit
 
 				<p class="warn">After booting and logging in as your user, the <strong>DNS</strong> step is important, while the <strong>YAY</strong> step is optional.</p>
 					<p class="ok">Let's set up the <strong>DNS</strong></p>
-					<pre><code>sh -c 'printf "nameserver 8.8.8.8\nnameserver 1.1.1.1\n" >> /etc/resolv.conf'</code>
+					<pre><p>Edit the file <strong><code>/etc/resolv.conf</code></strong> with <code>nano</code> and add the following lines</p>
+<code>nameserver 8.8.8.8</code>
+<code>nameserver 1.1.1.1</code>
 <p class="note">Adds public DNS servers (Google and Cloudflare) for name resolution.
 To ensures the system can resolve domain names on the internet.</p></pre>
 
