@@ -111,7 +111,7 @@
 				<div class="ok">
 					<p><strong>Tip:</strong> To have the best partition layout, it’s recommended to create a separate <strong>home</strong> partition. This way, if you ever mess up the root partition, you can reinstall the system and mount the existing home partition without losing your personal data.</p>
 
-					<p>The general guideline is: the more disk space you have, the better it is to have a separate home partition. I recommend giving your <strong>root</strong> partition about <strong>25% of the total disk space</strong> and leaving the rest for the home partition. This will result in <strong>three partitions</strong>: <strong>EFI, ROOT, HOME</strong>.</p>
+					<p>The general guideline is: the more disk space you have, the better it is to have a separate <strong>home</strong> partition. I recommend giving your <strong>root</strong> partition about <strong>25% of the total disk space</strong> and leaving the rest for the home partition. This will result in <strong>three partitions</strong>: <strong>EFI, ROOT, HOME</strong>.</p>
 
 					<h4>Example for a 512 GiB Drive</h4>
 					<ul>
@@ -124,7 +124,7 @@
 					This makes resizing easier. The size of the swap file depends on your RAM and whether you want to enable hibernation. 
 					For instance, if you have <strong>16 GiB of RAM</strong>, a <strong>16 GiB swap file</strong> is a reasonable choice.</p>
 				</div>
-				<p>Create two partitions on the <em>target</em> Drive (512GiB):</p>
+				<p>Create three partitions on the <em>target</em> Drive (512GiB):</p>
 				<table>
 					<thead>
 						<tr><th>#</th><th>Purpose</th><th>Size</th><th>Type / FS</th><th>Mount</th></tr>
@@ -138,7 +138,7 @@
 				<div class="codeblock">
 					<pre><code>cfdisk /dev/sdY</code></pre>
 				</div>
-				<p class="ok">After opening the target drive with <strong>cfdisk</strong>, you need to create two partitions: an EFI partition and a root partition.</p>
+				<p class="ok">After opening the target drive with <strong>cfdisk</strong>, you need to create three partitions: an EFI partition and a root partition.</p>
 				<p class="red"><strong>Warning:</strong> Double‑check the target device (e.g. <code>/dev/sdY</code>) with <code>lsblk</code> to avoid wiping the wrong disk.</p>
 			</section>
 
