@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width,initial-scale=1" />
+		<title>Switching from Arch Linux to Void Linux — Guide</title>
+		<link rel="stylesheet" href="from_arch_to_void.css" />
+	</head>
+	<body>
+		<div class="container">
+			<header>
+				<div class="title">
+					<h1>Switching from Arch Linux to Void Linux — Guide</h1>
+					<div class="muted">Quick notes, command mappings, checklist and things to watch for when migrating.</div>
+				</div>
+			</header>
+
+			<div class="grid">
+				<main>
+					<section class="card" id="why">
+						<h2>Why switch?</h2>
+						<p class="muted">Void Linux is an independent, rolling-release distribution that uses <strong>runit</strong> by default (though other init systems are possible), the <strong>xbps</strong> package manager, and focuses on simplicity and clarity. People pick Void for predictable init, small base system, musl builds, and fewer systemd dependencies.</p>
+					</section>
+
+					<section class="card" id="big-differences">
+						<h2>Big differences you need to know</h2>
+						<ul>
+							<li><strong>Init system</strong>: Arch uses systemd; Void uses <strong>runit</strong> (service supervision).</li>
+							<li><strong>Package manager</strong>: pacman vs <strong>xbps</strong> (xbps-install, xbps-query, xbps-remove).</li>
+							<li><strong>Repositories</strong>: Void's repos are curated — <em>not</em> an AUR equivalent; community builds exist (e.g., xbps-src).</li>
+							<li><strong>Musl vs glibc</strong>: Void supports musl and glibc images; Arch is glibc-only by default.</li>
+							<li><strong>Philosophy</strong>: Minimal base, BSD-style init scripts, less auto-magic; expect to configure things manually.</li>
+						</ul>
+					</section>
+
+					<section class="card" id="package-mgmt">
+						<h2>Package management & common command mappings</h2>
+						<p class="muted">Here are quick command translations so you can map your pacman knowledge to xbps:</p>
+						<table>
+							<thead><tr><th>Action</th><th>pacman</th><th>xbps</th></tr></thead>
+							<tbody>
+								<tr><td>Install package</td><td><code>pacman -S package</code></td><td><code>sudo xbps-install -S package</code></td></tr>
+								<tr><td>Remove package</td><td><code>pacman -Rns package</code></td><td><code>sudo xbps-remove -R package</code></td></tr>
+								<tr><td>Update database & system</td><td><code>pacman -Syu</code></td><td><code>sudo xbps-install -Su</code></td></tr>
+								<tr><td>Search</td><td><code>pacman -Ss term</code></td><td><code>xbps-query -Rs term</code></td></tr>
+								<tr><td>List installed</td><td><code>pacman -Qe</code></td><td><code>xbps-query -l</code></td></tr>
+								<tr><td>Download & build from sources</td><td>AUR helpers</td><td><code>xbps-src</code> (xbps-src builds packages from templates)</td></tr>
+							</tbody>
+						</table>
+					</section>
+
+					<section class="card" id="init-and-services">
+						<h2>Init and services: runit basics</h2>
+						<p class="muted">runit organizes services in <code>/etc/sv</code> and uses symlinks in <code>/var/service</code>. Each service directory contains a <code>run</code> script and optionally a <code>finish</code> script.</p>
+						<p>Common commands:</p>
+<pre><code>sudo ln -s /etc/sv/sshd /var/service</code>
+<code>sudo sv down sshd  # stop</code>
+<code>sudo sv up sshd  # start/restart</code></pre>
+					</section>
+
+					<section class="card" id="install-tips">
+						<h2>Installation tips</h2>
+						<ol class="muted">
+							<li>Pick the right image: <strong>glbic</strong> if you need wide software compatibility, or <strong>musl</strong> if you want a lightweight musl-based system.</li>
+							<li>Read the Void handbook (installer is not identical to Arch's installers; it uses a simple guided script or manual steps).</li>
+							<li>If you rely on AUR packages, plan to use <code>xbps-src</code> or build locally. Some packages may not exist in Void repos.</li>
+							<li>Decide on network setup tools: NetworkManager, dhcpcd, wpa_supplicant are available — pick what fits your workflow.</li>
+							<li>Swap systemd-only software? Search for systemd-free alternatives or consider running with the systemd compatibility layer where possible.</li>
+						</ol>
+					</section>
+
+					<section class="card" id="pitfalls">
+						<h2>Common pitfalls</h2>
+						<ul>
+							<li><strong>Missing AUR packages:</strong> not everything on Arch's AUR exists on Void; expect to build or adapt.</li>
+							<li><strong>Systemd-only apps:</strong> some software expects systemd — research or accept trade-offs.</li>
+							<li><strong>Services layout:</strong> runit has a different mental model — enabling vs linking services is different than enabling a systemd unit.</li>
+							<li><strong>Rolling differences:</strong> Void is rolling but curated; packages may lag or be maintained differently than Arch's upstream-forward model.</li>
+						</ul>
+					</section>
+
+					<section class="card" id="post-install-commands">
+						<h2>Useful post-install commands</h2>
+<pre><code>sudo xbps-install -Su    # update</code>
+<code>sudo xbps-install -S base-system    # example: install base meta</code>
+<code>sudo xbps-install -S linux    # install kernel (virtual package 'linux')</code>
+<code>sudo xbps-reconfigure -f glibc-locales    # if you need to reconfigure locales (glibc images)</code>
+<code>sudo xbps-reconfigure -fa    # To reconfigure everything</code></pre>
+					</section>
+
+					<section class="card" id="resources">
+						<h2>Resources & further reading</h2>
+						<ul>
+							<li>Void Linux handbook and wiki (search official Void docs).</li>
+							<li>xbps-src manual — building packages from source.</li>
+							<li>runit basics and examples.</li>
+						</ul>
+					</section>
+				</main>
+			</div>
+
+			<footer style="margin-top:18px;text-align:center;color:var(--muted)">
+				<small>Et voilà! Welcome to the Void</small>
+			</footer>
+		</div>
+
+	</body>
+</html>
