@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<title>Virt-manager installation on Alpine Linux</title>
+		<link rel="stylesheet" href="virtmanager-alpine.css">
+	</head>
+	<body>
+		<div class="container">
+			<h1>Virt-manager installation on Alpine Linux</h1>
+
+			<section>
+				<h2>Installation</h2>
+				<pre><code>doas apk add virt-manager libvirt qemu qemu-system-x86_64 dnsmasq bridge-utils qemu-openrc libvirt-daemon dbus polkit nano</code></pre>
+			</section>
+
+			<section>
+				<h2>User Setup</h2>
+				<pre><code>doas adduser &lt;your_username&gt; kvm
+doas adduser &lt;your_username&gt; libvirt</code></pre>
+			</section>
+
+			<section>
+				<h2>Configuration</h2>
+				<h3>Set default URI</h3>
+				<p>Edit <code>/etc/libvirt/libvirt.conf</code>:</p>
+				<pre><code>doas nano /etc/libvirt/libvirt.conf</code></pre>
+				<p>Uncomment and set:</p>
+				<pre><code>uri_default = "qemu:///system"</code></pre>
+
+				<h3>QEMU Permissions</h3>
+				<p>Edit <code>/etc/libvirt/qemu.conf</code>:</p>
+				<pre><code>doas nano /etc/libvirt/qemu.conf</code></pre>
+				<p>Uncomment and set:</p>
+				<pre><code>user = "&lt;your_username&gt;"
+group = "libvirt"</code></pre>
+			</section>
+
+			<section>
+				<h2>Enable Services</h2>
+				<pre><code>doas rc-update add libvirtd default
+doas rc-update add dbus default
+doas rc-update add polkit default</code></pre>
+				<p>Reboot the System:</p>
+				<pre><code>doas reboot</code></pre>
+			</section>
+			<p><strong>***Et voilà***</strong></p>
+			<hr>
+		<footer>
+			<address class="author">Made by <strong>NetworkFriend</strong></address>
+		</footer>
+		</div>
+	</body>
+</html>
