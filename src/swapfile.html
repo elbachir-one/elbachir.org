@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>How to Create a Swap File</title>
+		<link rel="stylesheet" href="swapfile.css">
+	</head>
+	<body>
+
+		<div class="container">
+			<h1>How to Create a Swap File</h1>
+
+			<section>
+				<h2>Step 1: Turn off existing swap</h2>
+				<pre><code>sudo swapoff /swapfile</code></pre>
+			</section>
+
+			<section>
+				<h2>Step 2: Create a new swap file (example: 4 GB)</h2>
+				<pre><code>sudo fallocate -l 4G /swapfile</code></pre>
+			</section>
+
+			<section>
+				<h2>Step 3: Set correct permissions</h2>
+				<pre><code>sudo chmod 600 /swapfile</code></pre>
+			</section>
+
+			<section>
+				<h2>Step 4: Make it a swap area</h2>
+				<pre><code>sudo mkswap /swapfile</code></pre>
+			</section>
+
+			<section>
+				<h2>Step 5: Enable the swap file</h2>
+				<pre><code>sudo swapon /swapfile</code></pre>
+			</section>
+
+			<section>
+				<h2>Step 6: Verify</h2>
+				<pre><code>free -h</code></pre>
+			</section>
+
+			<section>
+				<h2>Optional: Add to /etc/fstab</h2>
+				<p>Add this line to <code>/etc/fstab</code> to enable swap at boot:</p>
+				<pre><code>/swapfile none swap defaults 0 0</code></pre>
+			</section>
+		</div>
+
+	</body>
+</html>
