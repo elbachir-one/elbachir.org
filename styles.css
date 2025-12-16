@@ -164,3 +164,29 @@ h1 {
 .bar-text {
 	color: #005577;
 }
+
+.search-container {
+	width: 100%;
+	max-width: 500px;
+	margin-bottom: 40px;
+}
+
+.search-container input {
+	width: 100%;
+	padding: 14px 18px;
+	font-size: 1.1em;
+	border-radius: 10px;
+	border: 1px solid #30363d;
+	background-color: #161b22;
+	color: #c9d1d9;
+	outline: none;
+}
+
+.search-container input::placeholder {
+	color: #8b949e;
+}
+
+.search-container input:focus {
+	border-color: #58a6ff;
+	box-shadow: 0 0 0 2px rgba(88, 166, 255, 0.3);
+}
