@@ -52,6 +52,23 @@
 			<p>Check your root partition with:</p>
 			<pre><code>lsblk</code></pre>
 
+			<h3>💡 Optional: Automate EFI Boot Entry Updates</h3>
+			<p>
+			If you don’t want to manually repeat <strong>Step 3</strong> after every kernel update, Void Linux provides a built-in script that can handle this automatically.
+			</p>
+			<ol>
+				<li>Edit the configuration file:
+					<pre><code>sudo nano /etc/default/efibootmgr-kernel-hook</code></pre>
+				</li>
+				<li>Enable automatic EFI updates by setting:
+					<pre><code>MODIFY_EFI_ENTRIES=1</code>
+<code>EFI_KERNEL_OPTS="root=/dev/sdZZ ro quiet splash"</code>
+<code>EFI_LABEL="Void Linux EFI Stub"</code></pre>
+				</li>
+			</ol>
+
+			<p>From now on, future kernel updates will automatically create or update the UEFI boot entry.</p>
+
 			<h2>🔀 Step 4: Reboot and Test</h2>
 			<p>After rebooting, your system should boot directly into Linux using the EFI stub.</p>
 			<p>Check with:</p>
@@ -67,7 +84,6 @@
 
 			<h2>🔧 Notes</h2>
 			<ul>
-				<li>You must manually update the EFI stub entry if your kernel/initramfs changes.</li>
 				<li>You can create multiple entries with different kernels if needed.</li>
 				<li>No GRUB menu means no easy kernel selection or recovery options unless you set them up manually.</li>
 			</ul>
